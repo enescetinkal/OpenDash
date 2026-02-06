@@ -25,6 +25,8 @@ func UpdatePlayer(self *Player, dt float32, groundHeight float32) {
 		self.onGround = false
 	}
 
+
+	//apply gravity and jump force
 	self.rectpro.rect.Y += self.yVelocity * dt
 	if !self.onGround {
 		self.yVelocity += self.gravity * dt
@@ -34,6 +36,7 @@ func UpdatePlayer(self *Player, dt float32, groundHeight float32) {
 
 	self.rectpro.rect.X += self.speed * dt
 
+	//jump
 	if rl.IsKeyDown(rl.KeySpace) && self.onGround {
 		self.onGround = false
 		self.yVelocity = self.jumpForce
@@ -46,7 +49,7 @@ func InitalizePlayer(groundHeight float32) Player {
 		yVelocity: 0,
 		jumpForce: -500,
 		gravity:   1000,
-		speed:     300,
+		speed:     350,
 		onGround:  true,
 	}
 }

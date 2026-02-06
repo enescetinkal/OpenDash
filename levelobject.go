@@ -11,8 +11,15 @@ const (
 
 type LevelObject struct {
 	rectpro RectPro
-
 	id uint
 	mode uint16
+
 	sprite rl.Texture2D
+	color rl.Color
+	// which order the object gets drawn at (player depth not determined yet)
+	depth int8
+}
+
+func DrawLevelObject(object *LevelObject) {
+	//TODO: make object drawing
 }
