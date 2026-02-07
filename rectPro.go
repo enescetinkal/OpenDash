@@ -30,7 +30,7 @@ func GetRectProCollider(rectpro RectPro) rl.Rectangle {
 }
 
 func GetRectProPosition(rectpro RectPro) rl.Vector2 {
-	return rl.NewVector2(rectpro.rect.X, rectpro.rect.Y)
+	return rl.NewVector2(rectpro.rect.X-rectpro.rect.Width/2, rectpro.rect.Y-rectpro.rect.Height/2)
 }
 
 func CheckCollisionRectPro(recta RectPro, rectb RectPro) bool {

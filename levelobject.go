@@ -20,15 +20,24 @@ type LevelObject struct {
 	depth int8
 }
 
-func NewObject(){
+func NewObject(rectPro RectPro, id uint, mode uint16, sprite string) LevelObject{
 	//TODO: make object init
+	return LevelObject{
+		rectpro: rectPro,
+		id: id,
+		mode: mode,
+
+		sprite: rl.LoadTexture(sprite),
+		color: rl.White,
+		depth: 0,
+	}
 }
 
 func DrawLevelObject(object *LevelObject) {
+	rl.DrawTextureEx(object.sprite, GetRectProPosition(object.rectpro), object.rectpro.rotation, 1, object.color)
+
 	if *debug {
 		rl.DrawRectangleLinesEx(GetRectProCollider(object.rectpro), 2, rl.Green)
 		rl.DrawCircle(int32(object.rectpro.rect.X), int32(object.rectpro.rect.Y), 2, rl.Green)
 	}
-
-	rl.DrawTextureEx(object.sprite, GetRectProPosition(object.rectpro), object.rectpro.rotation, 1, object.color)
 }

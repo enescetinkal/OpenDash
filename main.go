@@ -30,6 +30,8 @@ func main() {
 	player := InitalizePlayer(groundHeight)
 	mainCamera := rl.NewCamera2D(rl.NewVector2(float32(ScreenH)-500, float32(ScreenW)/2), rl.NewVector2(player.rectpro.rect.X, 400), 0, 1)
 
+	testObject := NewObject(NewRectPro(800, float32(ScreenH) - 100, 64, 64, 0), 1, 1, "testBlock.png")
+
 	for !rl.WindowShouldClose() {
 		dt = rl.GetFrameTime()
 
@@ -44,6 +46,7 @@ func main() {
 		rl.BeginMode2D(mainCamera)
 		rl.DrawRectangleRec(groundRect, groundColor)
 		DrawRectPro(&player.rectpro, rl.Green)
+		DrawLevelObject(&testObject)
 		rl.EndMode2D()
 
 		rl.EndDrawing()
