@@ -10,7 +10,7 @@ const (
 	OBJECTMODE_TRIGGER
 )
 
-var ObjectSprites []string = []string{"testBlock.png"}
+var ObjectSprites []string = []string{"Resources/testBlock.png"}
 
 
 type LevelObject struct {
