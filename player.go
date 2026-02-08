@@ -8,6 +8,7 @@ import (
 
 type Player struct {
 	rectpro RectPro
+	blockCollider RectPro
 
 	yVelocity float32
 	jumpForce float32
@@ -45,9 +46,18 @@ func UpdatePlayer(self *Player, dt float32, groundHeight float32) {
 	}
 }
 
+func UpdateCollisions(self *Player, level *[]LevelObject){
+	for i := 0; i < len(*level); i++{
+		if CheckCollisionRectPro(self.blockCollider, level[i].rectpro){
+			self.speed = 0
+		}
+	}
+}
+
 func InitalizePlayer(groundHeight float32) Player {
 	return Player{
 		rectpro:   NewRectPro(0, float32(ScreenH)+groundHeight, 64, 64, 0),
+		blockCollider: NewRectPro(0, float32(ScreenH)+groundHeight, 32, 32, 0),
 		yVelocity: 0,
 		jumpForce: -500,
 		gravity:   1000,

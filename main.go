@@ -41,20 +41,23 @@ func main() {
 	objects[1] = NewObject(NewRectPro(864, float32(ScreenH) - 100 - 32, 64, 64, 0), 1, OBJECTMODE_BLOCK, 100)
 
 	for !exitWindow {
-		dt = rl.GetFrameTime()
-		exitWindow = rl.WindowShouldClose()
-		
-		if rl.IsKeyPressed(rl.KeyEscape) {
-			showMessageBox = !showMessageBox
-		}
+		if !showMessageBox {
+				dt = rl.GetFrameTime()
+			exitWindow = rl.WindowShouldClose()
+			
+			if rl.IsKeyPressed(rl.KeyEscape) {
+				showMessageBox = !showMessageBox
+			}
 
-		UpdatePlayer(&player, dt, groundHeight)
-		mainCamera.Target = rl.NewVector2(player.rectpro.rect.X, 400)
+			UpdatePlayer(&player, dt, groundHeight)
+			UpdateCollisions(&player, &objects)
+			mainCamera.Target = rl.NewVector2(player.rectpro.rect.X, 400)
 
-		groundRect.X = player.rectpro.rect.X - groundRect.Width / 2
-		
-		if rl.IsKeyPressed(rl.KeyR){
-			player = InitalizePlayer(groundHeight)
+			groundRect.X = player.rectpro.rect.X - groundRect.Width / 2
+			
+			if rl.IsKeyPressed(rl.KeyR){
+				player = InitalizePlayer(groundHeight)
+			}
 		}
 
 		rl.BeginDrawing()
@@ -79,7 +82,7 @@ func main() {
 			rl.EndMode2D()
 			
 			if showMessageBox {
-				rl.DrawRectangle(0, 0, int32(rl.GetScreenWidth()), int32(rl.GetScreenHeight()), rl.Fade(rl.RayWhite, 0.8))
+				rl.DrawRectangle(0, 0, int32(rl.GetScreenWidth()), int32(rl.GetScreenHeight()), rl.Fade(rl.Black, 0.4))
 				var result int32 = gui.MessageBox(rl.Rectangle{float32(rl.GetScreenWidth())/2 - 125, float32(rl.GetScreenHeight())/2 - 50, 250, 100}, gui.IconText(gui.ICON_EXIT, "Close Window"), "Do you really want to exit?", "Yes;No")
 
 				if (result == 0) || (result == 2) {
