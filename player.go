@@ -44,13 +44,15 @@ func UpdatePlayer(self *Player, dt float32, groundHeight float32) {
 		self.onGround = false
 		self.yVelocity = self.jumpForce
 	}
+	
+	self.rectpro.rect.X = self.blockCollider.rect.X
+	//self.rectpro.rect.Y = self.blockCollider.rect.Y
 }
 
-func UpdateCollisions(self *Player, level *[]LevelObject){
-	for i := 0; i < len(*level); i++{
-		if CheckCollisionRectPro(self.blockCollider, level[i].rectpro){
-			self.speed = 0
-		}
+func UpdateCollisions(self *Player, object *LevelObject){
+	if CheckCollisionRectPro(self.blockCollider, object.rectpro) && object.mode == OBJECTMODE_BLOCK{
+		print("collision!")
+		self.speed = 0
 	}
 }
 

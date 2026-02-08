@@ -50,7 +50,10 @@ func main() {
 			}
 
 			UpdatePlayer(&player, dt, groundHeight)
-			UpdateCollisions(&player, &objects)
+			for i := 0; i < len(objects); i++{
+				UpdateCollisions(&player, &objects[i])
+			}
+			
 			mainCamera.Target = rl.NewVector2(player.rectpro.rect.X, 400)
 
 			groundRect.X = player.rectpro.rect.X - groundRect.Width / 2
@@ -70,6 +73,7 @@ func main() {
 			for i := int8(-127); i < 127; i++{
 				if player.depth == i {
 					DrawRectPro(&player.rectpro, rl.Lime)
+					DrawRectPro(&player.blockCollider, rl.Blue)
 				}
 				
 				for j := int(0); j < len(objects); j++ {
