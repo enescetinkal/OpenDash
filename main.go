@@ -4,9 +4,11 @@ import (
 	"flag"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
+	gui "github.com/gen2brain/raylib-go/raygui"
 )
 
 var debug *bool
+var noSound *bool
 
 const ScreenW, ScreenH int32 = 800, 600
 
@@ -15,10 +17,14 @@ func main() {
 	rl.InitWindow(ScreenW, ScreenH, "Open-Dash")
 
 	rl.SetTargetFPS(60)
+	rl.SetExitKey(0)
 
 	var dt float32
-	debug = flag.Bool("debug", false, "Debug Mode")
+	var exitWindow bool
+	var showMessageBox bool
 
+	debug = flag.Bool("debug", false, "Debug Mode")
+	noSound = flag.Bool("noSound", false, "Disable Sounds")
 	flag.Parse()
 
 	backgroundColor := rl.SkyBlue
@@ -30,24 +36,58 @@ func main() {
 	player := InitalizePlayer(groundHeight)
 	mainCamera := rl.NewCamera2D(rl.NewVector2(float32(ScreenH)-500, float32(ScreenW)/2), rl.NewVector2(player.rectpro.rect.X, 400), 0, 1)
 
-	testObject := NewObject(NewRectPro(800, float32(ScreenH) - 100, 64, 64, 0), 1, 1, "testBlock.png")
+	objects := make([]LevelObject, 5)
+	objects[0] = NewObject(NewRectPro(800, float32(ScreenH) - 100 - 32, 64, 64, 0), 1, OBJECTMODE_BLOCK, 0)
+	objects[1] = NewObject(NewRectPro(864, float32(ScreenH) - 100 - 32, 64, 64, 0), 1, OBJECTMODE_BLOCK, 100)
 
-	for !rl.WindowShouldClose() {
+	for !exitWindow {
 		dt = rl.GetFrameTime()
+		exitWindow = rl.WindowShouldClose()
+		
+		if rl.IsKeyPressed(rl.KeyEscape) {
+			showMessageBox = !showMessageBox
+		}
 
 		UpdatePlayer(&player, dt, groundHeight)
 		mainCamera.Target = rl.NewVector2(player.rectpro.rect.X, 400)
 
 		groundRect.X = player.rectpro.rect.X - groundRect.Width / 2
+		
+		if rl.IsKeyPressed(rl.KeyR){
+			player = InitalizePlayer(groundHeight)
+		}
 
 		rl.BeginDrawing()
-		rl.ClearBackground(backgroundColor)
+			rl.ClearBackground(backgroundColor)
+			
+			rl.BeginMode2D(mainCamera)
+			rl.DrawRectangleRec(groundRect, groundColor)
+			
+			//object and player draw
+			for i := int8(-127); i < 127; i++{
+				if player.depth == i {
+					DrawRectPro(&player.rectpro, rl.Lime)
+				}
+				
+				for j := int(0); j < len(objects); j++ {
+					if objects[j].depth == i {
+						DrawLevelObject(&objects[j])
+					}
+				}
+			}
+			
+			rl.EndMode2D()
+			
+			if showMessageBox {
+				rl.DrawRectangle(0, 0, int32(rl.GetScreenWidth()), int32(rl.GetScreenHeight()), rl.Fade(rl.RayWhite, 0.8))
+				var result int32 = gui.MessageBox(rl.Rectangle{float32(rl.GetScreenWidth())/2 - 125, float32(rl.GetScreenHeight())/2 - 50, 250, 100}, gui.IconText(gui.ICON_EXIT, "Close Window"), "Do you really want to exit?", "Yes;No")
 
-		rl.BeginMode2D(mainCamera)
-		rl.DrawRectangleRec(groundRect, groundColor)
-		DrawRectPro(&player.rectpro, rl.Green)
-		DrawLevelObject(&testObject)
-		rl.EndMode2D()
+				if (result == 0) || (result == 2) {
+					showMessageBox = false
+				} else if result == 1 {
+					exitWindow = true
+				}
+			}
 
 		rl.EndDrawing()
 	}

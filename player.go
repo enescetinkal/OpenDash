@@ -15,6 +15,8 @@ type Player struct {
 
 	gravity float32
 	speed   float32
+	
+	depth int8
 }
 
 func UpdatePlayer(self *Player, dt float32, groundHeight float32) {
@@ -45,11 +47,12 @@ func UpdatePlayer(self *Player, dt float32, groundHeight float32) {
 
 func InitalizePlayer(groundHeight float32) Player {
 	return Player{
-		rectpro:   NewRectPro(0, float32(ScreenH)+groundHeight+10, 64, 64, 0),
+		rectpro:   NewRectPro(0, float32(ScreenH)+groundHeight, 64, 64, 0),
 		yVelocity: 0,
 		jumpForce: -500,
 		gravity:   1000,
 		speed:     350,
 		onGround:  true,
+		depth: 63,
 	}
 }

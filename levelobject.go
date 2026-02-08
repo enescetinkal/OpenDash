@@ -4,10 +4,13 @@ import rl "github.com/gen2brain/raylib-go/raylib"
 
 // Mode Enum
 const (
-	OBJECTMODE_DECORATION uint16 = 0
-	OBJECTMODE_BLOCK uint16 = 1
-	OBJECTMODE_SPIKE uint16 = 2 // rectangular hitbox
+	OBJECTMODE_DECORATION uint16 = iota
+	OBJECTMODE_BLOCK
+	OBJECTMODE_SPIKE // rectangular hitbox
 )
+
+var ObjectSprites []string = []string{"testBlock.png"}
+
 
 type LevelObject struct {
 	rectpro RectPro
@@ -16,20 +19,20 @@ type LevelObject struct {
 
 	sprite rl.Texture2D
 	color rl.Color
-	// which order the object gets drawn at (player depth not determined yet)
+	// which order the object gets drawn at (player depth = 63)
 	depth int8
 }
 
-func NewObject(rectPro RectPro, id uint, mode uint16, sprite string) LevelObject{
+func NewObject(rectPro RectPro, id uint, mode uint16, depth int8) LevelObject{
 	//TODO: make object init
 	return LevelObject{
 		rectpro: rectPro,
 		id: id,
 		mode: mode,
 
-		sprite: rl.LoadTexture(sprite),
+		sprite: rl.LoadTexture(ObjectSprites[id - 1]),
 		color: rl.White,
-		depth: 0,
+		depth: depth,
 	}
 }
 
