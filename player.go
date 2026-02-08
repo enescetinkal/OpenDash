@@ -45,7 +45,7 @@ func UpdatePlayer(self *Player, dt float32, groundHeight float32) {
 		self.yVelocity = self.jumpForce
 	}
 	
-	self.rectpro.rect.X = self.blockCollider.rect.X
+	//self.rectpro.rect.X = self.blockCollider.rect.X
 	//self.rectpro.rect.Y = self.blockCollider.rect.Y
 }
 
