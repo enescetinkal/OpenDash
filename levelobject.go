@@ -7,6 +7,7 @@ const (
 	OBJECTMODE_DECORATION uint16 = iota
 	OBJECTMODE_BLOCK
 	OBJECTMODE_SPIKE // rectangular hitbox
+	OBJECTMODE_TRIGGER
 )
 
 var ObjectSprites []string = []string{"testBlock.png"}
