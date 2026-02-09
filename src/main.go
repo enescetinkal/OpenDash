@@ -37,8 +37,8 @@ func main() {
 	mainCamera := rl.NewCamera2D(rl.NewVector2(float32(ScreenH)-500, float32(ScreenW)/2), rl.NewVector2(player.rectpro.rect.X, 400), 0, 1)
 
 	objects := make([]LevelObject, 5)
-	objects[0] = NewObject(NewRectPro(800, float32(ScreenH) - 100 - 32, 64, 64, 0), 1, OBJECTMODE_BLOCK, 0)
-	objects[1] = NewObject(NewRectPro(864, float32(ScreenH) - 100 - 32, 64, 64, 0), 1, OBJECTMODE_BLOCK, 100)
+	objects[0] = NewObject(NewRectPro(800, float32(ScreenH) - 100 - 32, 64, 64, 0), NewRectPro(800, float32(ScreenH) - 100 - 32, 64, 64, 0), 1, OBJECTMODE_BLOCK, 0)
+	objects[1] = NewObject(NewRectPro(864, float32(ScreenH) - 100 - 32, 64, 64, 0), NewRectPro(864, float32(ScreenH) - 100 - 32, 64, 64, 0), 1, OBJECTMODE_BLOCK, 100)
 
 	for !exitWindow {
 		if !showMessageBox {
@@ -87,11 +87,12 @@ func main() {
 			
 			if showMessageBox {
 				rl.DrawRectangle(0, 0, int32(rl.GetScreenWidth()), int32(rl.GetScreenHeight()), rl.Fade(rl.Black, 0.4))
-				var result int32 = gui.MessageBox(rl.Rectangle{float32(rl.GetScreenWidth())/2 - 125, float32(rl.GetScreenHeight())/2 - 50, 250, 100}, gui.IconText(gui.ICON_EXIT, "Close Window"), "Do you really want to exit?", "Yes;No")
+				var result int32 = gui.MessageBox(rl.NewRectangle(float32(rl.GetScreenWidth())/2 - 125, float32(rl.GetScreenHeight())/2 - 50, 250, 100), gui.IconText(gui.ICON_EXIT, "Close Window"), "Do you really want to exit?", "Yes;No")
 
-				if (result == 0) || (result == 2) {
+				switch result {
+				case 0, 2:
 					showMessageBox = false
-				} else if result == 1 {
+				case 1:
 					exitWindow = true
 				}
 			}

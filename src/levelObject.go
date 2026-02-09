@@ -6,7 +6,7 @@ import rl "github.com/gen2brain/raylib-go/raylib"
 const (// default hitbox dimensions can change depending on the object's ID
 	OBJECTMODE_DECORATION uint16 = iota		// has no physical hitbox
 	OBJECTMODE_BLOCK
-	OBJECTMODE_SPIKE
+	OBJECTMODE_SPIKE  //rectangular hurtbox
 	OBJECTMODE_TRIGGER										// has no physical hitbox
 	OBJECTMODE_PORTAL
 	OBJECTMODE_PAD
@@ -18,6 +18,7 @@ var ObjectSprites []string = []string{"Resources/testBlock.png"}
 
 type LevelObject struct {
 	rectpro RectPro
+	collider RectPro
 	id uint
 	mode uint16
 
@@ -27,10 +28,11 @@ type LevelObject struct {
 	depth int8
 }
 
-func NewObject(rectPro RectPro, id uint, mode uint16, depth int8) LevelObject{
+func NewObject(rectPro RectPro, collider RectPro, id uint, mode uint16, depth int8) LevelObject{
 	//TODO: make object init
 	return LevelObject{
 		rectpro: rectPro,
+		collider: collider,
 		id: id,
 		mode: mode,
 
@@ -38,6 +40,10 @@ func NewObject(rectPro RectPro, id uint, mode uint16, depth int8) LevelObject{
 		color: rl.White,
 		depth: depth,
 	}
+}
+
+func NewBlock(rectpro RectPro, id uint, mode uint16, depth int8){
+	
 }
 
 func DrawLevelObject(object *LevelObject) {
