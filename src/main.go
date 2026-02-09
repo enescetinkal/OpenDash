@@ -10,7 +10,7 @@ import (
 var debug *bool
 var noSound *bool
 
-const ScreenW, ScreenH int32 = 800, 600
+const ScreenW, ScreenH int32 = 800, 600 //TODO: Read InitWindow sizes from a config file
 
 func main() {
 	rl.SetConfigFlags(rl.FlagVsyncHint)
