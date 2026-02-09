@@ -3,11 +3,14 @@ package main
 import rl "github.com/gen2brain/raylib-go/raylib"
 
 // Mode Enum
-const (
-	OBJECTMODE_DECORATION uint16 = iota
+const (// default hitbox dimensions can change depending on the object's ID
+	OBJECTMODE_DECORATION uint16 = iota		// has no physical hitbox
 	OBJECTMODE_BLOCK
-	OBJECTMODE_SPIKE // rectangular hitbox
-	OBJECTMODE_TRIGGER
+	OBJECTMODE_SPIKE
+	OBJECTMODE_TRIGGER										// has no physical hitbox
+	OBJECTMODE_PORTAL
+	OBJECTMODE_PAD
+	OBJECTMODE_ORB
 )
 
 var ObjectSprites []string = []string{"Resources/testBlock.png"}
