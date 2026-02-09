@@ -1,7 +1,7 @@
 .PHONY: build clean
 
 build:
-	mkdir bin
+	mkdir -p bin
 	go build -o bin/open-dash ./src
 
 clean:
