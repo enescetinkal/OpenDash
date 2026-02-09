@@ -7,7 +7,7 @@ import (
 //import "github.com/gen2brain/raylib-go/raylib"
 
 type Player struct {
-	rectpro RectPro
+	rectpro       RectPro
 	blockCollider RectPro
 
 	yVelocity float32
@@ -16,7 +16,7 @@ type Player struct {
 
 	gravity float32
 	speed   float32
-	
+
 	depth int8
 }
 
@@ -27,7 +27,6 @@ func UpdatePlayer(self *Player, dt float32, groundHeight float32) {
 	} else {
 		self.onGround = false
 	}
-
 
 	//apply gravity and jump force
 	self.rectpro.rect.Y += self.yVelocity * dt
@@ -44,27 +43,27 @@ func UpdatePlayer(self *Player, dt float32, groundHeight float32) {
 		self.onGround = false
 		self.yVelocity = self.jumpForce
 	}
-	
-	//self.rectpro.rect.X = self.blockCollider.rect.X
-	//self.rectpro.rect.Y = self.blockCollider.rect.Y
+
+	self.blockCollider.rect.X = self.rectpro.rect.X
+	self.blockCollider.rect.Y = self.rectpro.rect.Y
 }
 
-func UpdateCollisions(self *Player, object *LevelObject){
-	if CheckCollisionRectPro(self.blockCollider, object.rectpro) && object.mode == OBJECTMODE_BLOCK{
-		print("collision!")
+func UpdateCollisions(self *Player, object *LevelObject) {
+	if CheckCollisionRectPro(self.blockCollider, object.rectpro) && object.mode == OBJECTMODE_BLOCK {
 		self.speed = 0
+		self.yVelocity = 0
 	}
 }
 
 func InitalizePlayer(groundHeight float32) Player {
 	return Player{
-		rectpro:   NewRectPro(0, float32(ScreenH)+groundHeight, 64, 64, 0),
+		rectpro:       NewRectPro(0, float32(ScreenH)+groundHeight, 64, 64, 0),
 		blockCollider: NewRectPro(0, float32(ScreenH)+groundHeight, 32, 32, 0),
-		yVelocity: 0,
-		jumpForce: -500,
-		gravity:   1000,
-		speed:     350,
-		onGround:  true,
-		depth: 63,
+		yVelocity:     0,
+		jumpForce:     -500,
+		gravity:       1000,
+		speed:         350,
+		onGround:      true,
+		depth:         63,
 	}
 }
