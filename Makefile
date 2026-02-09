@@ -1,4 +1,4 @@
-.PHONY: build clean
+.PHONY: build clean run
 
 build:
 	mkdir -p bin
@@ -6,3 +6,6 @@ build:
 
 clean:
 	rm -r bin/
+
+run:
+	go run ./src
