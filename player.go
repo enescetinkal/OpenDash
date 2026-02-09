@@ -16,11 +16,16 @@ type Player struct {
 
 	gravity float32
 	speed   float32
+	gameOver bool
 
 	depth int8
 }
 
 func UpdatePlayer(self *Player, dt float32, groundHeight float32) {
+	if self.gameOver {
+		return
+	}
+
 	if self.rectpro.rect.Y+self.rectpro.rect.Height/2 >= groundHeight {
 		self.rectpro.rect.Y = groundHeight - self.rectpro.rect.Height/2
 		self.onGround = true
@@ -49,9 +54,8 @@ func UpdatePlayer(self *Player, dt float32, groundHeight float32) {
 }
 
 func UpdateCollisions(self *Player, object *LevelObject) {
-	if CheckCollisionRectPro(self.blockCollider, object.rectpro) && object.mode == OBJECTMODE_BLOCK {
-		self.speed = 0
-		self.yVelocity = 0
+	if(CheckCollisionRectPro(self.blockCollider, object.rectpro) && object.mode == OBJECTMODE_BLOCK){
+		self.gameOver = true
 	}
 }
 
