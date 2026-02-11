@@ -36,7 +36,7 @@ func main() {
 	player := InitalizePlayer(groundHeight)
 	mainCamera := rl.NewCamera2D(rl.NewVector2(float32(ScreenH)-500, float32(ScreenW)/2), rl.NewVector2(player.rectpro.rect.X, 400), 0, 1)
 
-	objects := make([]LevelObject, 5)
+	objects := make([]LevelObject, 5) //TODO: Write object initializer class
 	objects[0] = NewBlock(NewRectPro(800, float32(ScreenH) - 100 - 32, 64, 64, 0), 1, OBJECTMODE_BLOCK, 0)
 	objects[1] = NewBlock(NewRectPro(864, float32(ScreenH) - 100 - 32, 64, 64, 0), 1, OBJECTMODE_BLOCK, 100)
 	objects[2] = NewBlock(NewRectPro(864, float32(ScreenH) - 100 - 32, 64, 64, 0), 1, OBJECTMODE_BLOCK, 100)

@@ -6,7 +6,7 @@ import (
 
 //import "github.com/gen2brain/raylib-go/raylib"
 
-type Player struct {
+type Player struct { //TODO: Make Player into class
 	rectpro       RectPro
 	blockCollider RectPro
 
