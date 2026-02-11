@@ -18,7 +18,8 @@ var ObjectSprites []string = []string{"Resources/testBlock.png"}
 
 type LevelObject struct {
 	rectpro RectPro
-	collider RectPro
+	colliderTop RectPro
+	colliderBottom RectPro
 	id uint
 	mode uint16
 
@@ -32,7 +33,8 @@ func NewObject(rectPro RectPro, collider RectPro, id uint, mode uint16, depth in
 	//TODO: make object init
 	return LevelObject{
 		rectpro: rectPro,
-		collider: collider,
+		colliderTop: collider,
+		colliderBottom: collider,
 		id: id,
 		mode: mode,
 
@@ -42,8 +44,18 @@ func NewObject(rectPro RectPro, collider RectPro, id uint, mode uint16, depth in
 	}
 }
 
-func NewBlock(rectpro RectPro, id uint, mode uint16, depth int8){
-	
+func NewBlock(rectpro RectPro, id uint, mode uint16, depth int8) LevelObject{
+	return LevelObject{
+		rectpro: rectpro,
+		colliderTop: NewRectPro(rectpro.rect.X, rectpro.rect.Y - rectpro.origin.Y - 1, rectpro.rect.Width, 2, 0),
+		colliderBottom: NewRectPro(rectpro.rect.X, rectpro.rect.Y + rectpro.origin.Y + 1, rectpro.rect.Width, 2, 0),
+		id: id,
+		mode: mode,
+
+		sprite: rl.LoadTexture(ObjectSprites[id - 1]),
+		color: rl.White,
+		depth: depth,
+	}
 }
 
 func DrawLevelObject(object *LevelObject) {
@@ -52,5 +64,8 @@ func DrawLevelObject(object *LevelObject) {
 	if *debug {
 		rl.DrawRectangleLinesEx(GetRectProCollider(object.rectpro), 2, rl.Green)
 		rl.DrawCircle(int32(object.rectpro.rect.X), int32(object.rectpro.rect.Y), 2, rl.Green)
+
+		rl.DrawRectangleLinesEx(GetRectProCollider(object.colliderTop), 2, rl.Green)
+		rl.DrawCircle(int32(object.colliderTop.rect.X), int32(object.colliderTop.rect.Y), 2, rl.Green)
 	}
 }

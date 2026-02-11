@@ -29,8 +29,6 @@ func UpdatePlayer(self *Player, dt float32, groundHeight float32) {
 	if self.rectpro.rect.Y+self.rectpro.rect.Height/2 >= groundHeight {
 		self.rectpro.rect.Y = groundHeight - self.rectpro.rect.Height/2
 		self.onGround = true
-	} else {
-		self.onGround = false
 	}
 
 	//apply gravity and jump force
@@ -45,7 +43,6 @@ func UpdatePlayer(self *Player, dt float32, groundHeight float32) {
 
 	//jump
 	if rl.IsKeyDown(rl.KeySpace) && self.onGround {
-		self.onGround = false
 		self.yVelocity = self.jumpForce
 	}
 
@@ -54,6 +51,14 @@ func UpdatePlayer(self *Player, dt float32, groundHeight float32) {
 }
 
 func UpdateCollisions(self *Player, object *LevelObject) {
+	if(CheckCollisionRectPro(self.rectpro, object.colliderTop) && object.mode == OBJECTMODE_BLOCK){
+		self.rectpro.rect.Y = object.rectpro.rect.Y - object.rectpro.origin.Y - self.rectpro.origin.Y
+		self.blockCollider.rect.Y = object.rectpro.rect.Y - object.rectpro.origin.Y - self.rectpro.origin.Y
+		self.onGround = true
+	} else {
+		self.onGround = false
+	}
+
 	if(CheckCollisionRectPro(self.blockCollider, object.rectpro) && object.mode == OBJECTMODE_BLOCK){
 		self.gameOver = true
 	}

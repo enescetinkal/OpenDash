@@ -37,8 +37,9 @@ func main() {
 	mainCamera := rl.NewCamera2D(rl.NewVector2(float32(ScreenH)-500, float32(ScreenW)/2), rl.NewVector2(player.rectpro.rect.X, 400), 0, 1)
 
 	objects := make([]LevelObject, 5)
-	objects[0] = NewObject(NewRectPro(800, float32(ScreenH) - 100 - 32, 64, 64, 0), NewRectPro(800, float32(ScreenH) - 100 - 32, 64, 64, 0), 1, OBJECTMODE_BLOCK, 0)
-	objects[1] = NewObject(NewRectPro(864, float32(ScreenH) - 100 - 32, 64, 64, 0), NewRectPro(864, float32(ScreenH) - 100 - 32, 64, 64, 0), 1, OBJECTMODE_BLOCK, 100)
+	objects[0] = NewBlock(NewRectPro(800, float32(ScreenH) - 100 - 32, 64, 64, 0), 1, OBJECTMODE_BLOCK, 0)
+	objects[1] = NewBlock(NewRectPro(864, float32(ScreenH) - 100 - 32, 64, 64, 0), 1, OBJECTMODE_BLOCK, 100)
+	objects[2] = NewBlock(NewRectPro(864, float32(ScreenH) - 100 - 32, 64, 64, 0), 1, OBJECTMODE_BLOCK, 100)
 
 	for !exitWindow {
 		if !showMessageBox {
