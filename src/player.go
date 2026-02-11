@@ -16,13 +16,13 @@ type Player struct {
 
 	gravity float32
 	speed   float32
-	gameOver bool
+	isDead bool
 
 	depth int8
 }
 
 func UpdatePlayer(self *Player, dt float32, groundHeight float32) {
-	if self.gameOver {
+	if self.isDead {
 		return
 	}
 
@@ -60,7 +60,7 @@ func UpdateCollisions(self *Player, object *LevelObject) {
 	}
 
 	if(CheckCollisionRectPro(self.blockCollider, object.rectpro) && object.mode == OBJECTMODE_BLOCK){
-		self.gameOver = true
+		self.isDead = true
 	}
 }
 
