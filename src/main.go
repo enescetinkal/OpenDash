@@ -42,6 +42,7 @@ func main() {
 	objects[1] = NewBlock(NewRectPro(float32(ScreenW)+64, float32(ScreenH)-100-32, 64, 64, 0), 1, OBJECTMODE_BLOCK, 100)
 	objects[2] = NewBlock(NewRectPro(float32(ScreenW)+128, float32(ScreenH)-100-32, 64, 64, 0), 1, OBJECTMODE_BLOCK, 100)
 
+
 	for !exitWindow {
 		if !showMessageBox {
 			dt = rl.GetFrameTime()
