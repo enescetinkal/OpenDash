@@ -38,9 +38,9 @@ func main() {
 	mainCamera := rl.NewCamera2D(rl.NewVector2(float32(ScreenH)-500, float32(ScreenW)/2), rl.NewVector2(player.rectpro.rect.X, 400), 0, 1)
 
 	objects := make([]LevelObject, 5) //TODO: Write object initializer class
-	objects[0] = NewBlock(NewRectPro(800, float32(ScreenH)-100-32, 64, 64, 0), 1, OBJECTMODE_BLOCK, 0)
-	objects[1] = NewBlock(NewRectPro(864, float32(ScreenH)-100-32, 64, 64, 0), 1, OBJECTMODE_BLOCK, 100)
-	objects[2] = NewBlock(NewRectPro(800+128, float32(ScreenH)-100-32, 64, 64, 0), 1, OBJECTMODE_BLOCK, 100)
+	objects[0] = NewBlock(NewRectPro(float32(ScreenW), float32(ScreenH)-100-32, 64, 64, 0), 1, OBJECTMODE_BLOCK, 0)
+	objects[1] = NewBlock(NewRectPro(float32(ScreenW)+64, float32(ScreenH)-100-32, 64, 64, 0), 1, OBJECTMODE_BLOCK, 100)
+	objects[2] = NewBlock(NewRectPro(float32(ScreenW)+128, float32(ScreenH)-100-32, 64, 64, 0), 1, OBJECTMODE_BLOCK, 100)
 
 	for !exitWindow {
 		if !showMessageBox {
@@ -87,8 +87,8 @@ func main() {
 
 		rl.EndMode2D()
 
-		if rl.IsKeyDown(rl.KeyGrave) {
-			rl.DrawText(fmt.Sprintf("Velocity = %.2f", player.yVelocity), 10, 10, 48, rl.RayWhite)
+		if *debug {
+			rl.DrawText(fmt.Sprintf("Y Velocity = %.2f", player.yVelocity), 10, 10, 24, rl.RayWhite)
 		}
 
 		if showMessageBox {

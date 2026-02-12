@@ -54,14 +54,14 @@ func NewBlock(rectpro RectPro, id uint, mode uint16, depth int8) LevelObject {
 	}
 }
 
-func (lo *LevelObject) Draw() {
-	rl.DrawTextureEx(lo.sprite, lo.rectpro.GetPosition(), lo.rectpro.rotation, 1, lo.color)
+func (object *LevelObject) Draw() {
+	rl.DrawTextureEx(object.sprite, object.rectpro.GetPosition(), object.rectpro.rotation, 1, object.color)
 
 	if *debug {
-		rl.DrawRectangleLinesEx(lo.rectpro.GetCollider(), 2, rl.Green)
-		rl.DrawCircle(int32(lo.rectpro.rect.X), int32(lo.rectpro.rect.Y), 2, rl.Green)
+		rl.DrawRectangleLinesEx(object.rectpro.GetCollider(), 2, rl.Green)
+		rl.DrawCircle(int32(object.rectpro.rect.X), int32(object.rectpro.rect.Y), 2, rl.Green)
 
-		rl.DrawRectangleLinesEx(lo.colliderTop.GetCollider(), 2, rl.Green)
-		rl.DrawCircle(int32(lo.colliderTop.rect.X), int32(lo.colliderTop.rect.Y), 2, rl.Green)
+		rl.DrawRectangleLinesEx(object.colliderTop.GetCollider(), 2, rl.Green)
+		rl.DrawCircle(int32(object.colliderTop.rect.X), int32(object.colliderTop.rect.Y), 2, rl.Green)
 	}
 }
