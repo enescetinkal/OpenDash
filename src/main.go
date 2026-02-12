@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
 	gui "github.com/gen2brain/raylib-go/raygui"
@@ -85,6 +86,11 @@ func main() {
 			}
 			
 			rl.EndMode2D()
+
+			if rl.IsKeyDown(rl.KeyGrave) {
+				rl.DrawText(fmt.Sprintf("Velocity = %.2f", player.yVelocity), 10, 10, 48, rl.RayWhite)
+			}
+
 			
 			if showMessageBox {
 				rl.DrawRectangle(0, 0, int32(rl.GetScreenWidth()), int32(rl.GetScreenHeight()), rl.Fade(rl.Black, 0.4))
