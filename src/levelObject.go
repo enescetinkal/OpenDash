@@ -2,12 +2,11 @@ package main
 
 import rl "github.com/gen2brain/raylib-go/raylib"
 
-// Mode Enum
-const (// default hitbox dimensions can change depending on the object's ID
-	OBJECTMODE_DECORATION uint16 = iota		// has no physical hitbox
+const (
+	OBJECTMODE_DECORATION uint16 = iota
 	OBJECTMODE_BLOCK
-	OBJECTMODE_SPIKE  //rectangular hurtbox
-	OBJECTMODE_TRIGGER										// has no physical hitbox
+	OBJECTMODE_SPIKE
+	OBJECTMODE_TRIGGER
 	OBJECTMODE_PORTAL
 	OBJECTMODE_PAD
 	OBJECTMODE_ORB
@@ -15,57 +14,54 @@ const (// default hitbox dimensions can change depending on the object's ID
 
 var ObjectSprites []string = []string{"Resources/testBlock.png"}
 
-
 type LevelObject struct {
-	rectpro RectPro
-	colliderTop RectPro
+	rectpro        RectPro
+	colliderTop    RectPro
 	colliderBottom RectPro
-	id uint
-	mode uint16
+	id             uint
+	mode           uint16
 
 	sprite rl.Texture2D
-	color rl.Color
-	// which order the object gets drawn at (player depth = 63)
-	depth int8
+	color  rl.Color
+	depth  int8
 }
 
-func NewObject(rectPro RectPro, collider RectPro, id uint, mode uint16, depth int8) LevelObject{
-	//TODO: make object init
+func NewObject(rectPro RectPro, collider RectPro, id uint, mode uint16, depth int8) LevelObject {
 	return LevelObject{
-		rectpro: rectPro,
-		colliderTop: collider,
+		rectpro:        rectPro,
+		colliderTop:    collider,
 		colliderBottom: collider,
-		id: id,
-		mode: mode,
+		id:             id,
+		mode:           mode,
 
-		sprite: rl.LoadTexture(ObjectSprites[id - 1]),
-		color: rl.White,
-		depth: depth,
+		sprite: rl.LoadTexture(ObjectSprites[id-1]),
+		color:  rl.White,
+		depth:  depth,
 	}
 }
 
-func NewBlock(rectpro RectPro, id uint, mode uint16, depth int8) LevelObject{
+func NewBlock(rectpro RectPro, id uint, mode uint16, depth int8) LevelObject {
 	return LevelObject{
-		rectpro: rectpro,
-		colliderTop: NewRectPro(rectpro.rect.X, rectpro.rect.Y - rectpro.origin.Y - 1, rectpro.rect.Width, 2, 0),
-		colliderBottom: NewRectPro(rectpro.rect.X, rectpro.rect.Y + rectpro.origin.Y + 1, rectpro.rect.Width, 2, 0),
-		id: id,
-		mode: mode,
+		rectpro:        rectpro,
+		colliderTop:    NewRectPro(rectpro.rect.X, rectpro.rect.Y-rectpro.origin.Y-1, rectpro.rect.Width, 2, 0),
+		colliderBottom: NewRectPro(rectpro.rect.X, rectpro.rect.Y+rectpro.origin.Y+1, rectpro.rect.Width, 2, 0),
+		id:             id,
+		mode:           mode,
 
-		sprite: rl.LoadTexture(ObjectSprites[id - 1]),
-		color: rl.White,
-		depth: depth,
+		sprite: rl.LoadTexture(ObjectSprites[id-1]),
+		color:  rl.White,
+		depth:  depth,
 	}
 }
 
-func DrawLevelObject(object *LevelObject) {
-	rl.DrawTextureEx(object.sprite, GetRectProPosition(object.rectpro), object.rectpro.rotation, 1, object.color)
+func (lo *LevelObject) Draw() {
+	rl.DrawTextureEx(lo.sprite, lo.rectpro.GetPosition(), lo.rectpro.rotation, 1, lo.color)
 
 	if *debug {
-		rl.DrawRectangleLinesEx(GetRectProCollider(object.rectpro), 2, rl.Green)
-		rl.DrawCircle(int32(object.rectpro.rect.X), int32(object.rectpro.rect.Y), 2, rl.Green)
+		rl.DrawRectangleLinesEx(lo.rectpro.GetCollider(), 2, rl.Green)
+		rl.DrawCircle(int32(lo.rectpro.rect.X), int32(lo.rectpro.rect.Y), 2, rl.Green)
 
-		rl.DrawRectangleLinesEx(GetRectProCollider(object.colliderTop), 2, rl.Green)
-		rl.DrawCircle(int32(object.colliderTop.rect.X), int32(object.colliderTop.rect.Y), 2, rl.Green)
+		rl.DrawRectangleLinesEx(lo.colliderTop.GetCollider(), 2, rl.Green)
+		rl.DrawCircle(int32(lo.colliderTop.rect.X), int32(lo.colliderTop.rect.Y), 2, rl.Green)
 	}
 }

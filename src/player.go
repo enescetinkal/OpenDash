@@ -4,9 +4,7 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
-//import "github.com/gen2brain/raylib-go/raylib"
-
-type Player struct { //TODO: Make Player into class
+type Player struct {
 	rectpro       RectPro
 	blockCollider RectPro
 
@@ -16,55 +14,53 @@ type Player struct { //TODO: Make Player into class
 
 	gravity float32
 	speed   float32
-	isDead bool
+	isDead  bool
 
 	depth int8
 }
 
-func UpdatePlayer(self *Player, dt float32, groundHeight float32) {
-	if self.isDead {
+func (p *Player) Update(dt float32, groundHeight float32) {
+	if p.isDead {
 		return
 	}
 
-	if self.rectpro.rect.Y+self.rectpro.rect.Height/2 >= groundHeight {
-		self.rectpro.rect.Y = groundHeight - self.rectpro.rect.Height/2
-		self.onGround = true
+	if p.rectpro.rect.Y+p.rectpro.rect.Height/2 >= groundHeight {
+		p.rectpro.rect.Y = groundHeight - p.rectpro.rect.Height/2
+		p.onGround = true
 	}
 
-	//apply gravity and jump force
-	self.rectpro.rect.Y += self.yVelocity * dt
-	if !self.onGround {
-		self.yVelocity += self.gravity * dt
+	p.rectpro.rect.Y += p.yVelocity * dt
+	if !p.onGround {
+		p.yVelocity += p.gravity * dt
 	} else {
-		self.yVelocity = 0
+		p.yVelocity = 0
 	}
 
-	self.rectpro.rect.X += self.speed * dt
+	p.rectpro.rect.X += p.speed * dt
 
-	//jump
-	if rl.IsKeyDown(rl.KeySpace) && self.onGround {
-		self.yVelocity = self.jumpForce
+	if rl.IsKeyDown(rl.KeySpace) && p.onGround {
+		p.yVelocity = p.jumpForce
 	}
 
-	self.blockCollider.rect.X = self.rectpro.rect.X
-	self.blockCollider.rect.Y = self.rectpro.rect.Y
+	p.blockCollider.rect.X = p.rectpro.rect.X
+	p.blockCollider.rect.Y = p.rectpro.rect.Y
 }
 
-func UpdateCollisions(self *Player, object *LevelObject) {
-	if(CheckCollisionRectPro(self.rectpro, object.colliderTop) && object.mode == OBJECTMODE_BLOCK){
-		self.rectpro.rect.Y = object.rectpro.rect.Y - object.rectpro.origin.Y - self.rectpro.origin.Y
-		self.blockCollider.rect.Y = object.rectpro.rect.Y - object.rectpro.origin.Y - self.rectpro.origin.Y
-		self.onGround = true
+func (p *Player) UpdateCollisions(object *LevelObject) {
+	if p.rectpro.CheckCollision(object.colliderTop) && object.mode == OBJECTMODE_BLOCK {
+		p.rectpro.rect.Y = object.rectpro.rect.Y - object.rectpro.origin.Y - p.rectpro.origin.Y
+		p.blockCollider.rect.Y = object.rectpro.rect.Y - object.rectpro.origin.Y - p.rectpro.origin.Y
+		p.onGround = true
 	} else {
-		self.onGround = false
+		p.onGround = false
 	}
 
-	if(CheckCollisionRectPro(self.blockCollider, object.rectpro) && object.mode == OBJECTMODE_BLOCK){
-		self.isDead = true
+	if p.blockCollider.CheckCollision(object.rectpro) && object.mode == OBJECTMODE_BLOCK {
+		p.isDead = true
 	}
 }
 
-func InitalizePlayer(groundHeight float32) Player {
+func NewPlayer(groundHeight float32) Player {
 	return Player{
 		rectpro:       NewRectPro(0, float32(ScreenH)+groundHeight, 64, 64, 0),
 		blockCollider: NewRectPro(0, float32(ScreenH)+groundHeight, 32, 32, 0),
