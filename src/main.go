@@ -56,6 +56,7 @@ func main() {
 			for i := 0; i < len(objects); i++ {
 				player.UpdateCollisions(&objects[i])
 			}
+			if *debug {print(player.onGround)}
 
 			mainCamera.Target = rl.NewVector2(player.rectpro.rect.X, 400)
 
@@ -89,7 +90,7 @@ func main() {
 		rl.EndMode2D()
 
 		if *debug {
-			rl.DrawText(fmt.Sprintf("Y Velocity = %.2f", player.yVelocity), 10, 10, 24, rl.RayWhite)
+			rl.DrawText(fmt.Sprintf("Y Velocity = %.2f", player.yVelocity), 10, 10, 30, rl.RayWhite)
 		}
 
 		if showMessageBox {

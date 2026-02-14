@@ -24,9 +24,15 @@ func (p *Player) Update(dt float32, groundHeight float32) {
 		return
 	}
 
-	if p.rectpro.rect.Y+p.rectpro.rect.Height/2 >= groundHeight {
-		p.rectpro.rect.Y = groundHeight - p.rectpro.rect.Height/2
+	if rl.IsKeyDown(rl.KeySpace) && p.onGround {
+		p.yVelocity = p.jumpForce
+	}
+
+	if p.rectpro.rect.Y+p.rectpro.origin.Y >= groundHeight {
+		p.rectpro.rect.Y = groundHeight - p.rectpro.origin.Y
 		p.onGround = true
+	} else {
+		p.onGround = false
 	}
 
 	p.rectpro.rect.Y += p.yVelocity * dt
@@ -38,21 +44,17 @@ func (p *Player) Update(dt float32, groundHeight float32) {
 
 	p.rectpro.rect.X += p.speed * dt
 
-	if rl.IsKeyDown(rl.KeySpace) && p.onGround {
-		p.yVelocity = p.jumpForce
-	}
-
 	p.blockCollider.rect.X = p.rectpro.rect.X
 	p.blockCollider.rect.Y = p.rectpro.rect.Y
+
 }
 
 func (p *Player) UpdateCollisions(object *LevelObject) {
 	if p.rectpro.CheckCollision(object.colliderTop) && object.mode == OBJECTMODE_BLOCK {
 		p.rectpro.rect.Y = object.rectpro.rect.Y - object.rectpro.origin.Y - p.rectpro.origin.Y
 		p.blockCollider.rect.Y = object.rectpro.rect.Y - object.rectpro.origin.Y - p.rectpro.origin.Y
+		p.yVelocity = 0
 		p.onGround = true
-	} else {
-		p.onGround = false
 	}
 
 	if p.blockCollider.CheckCollision(object.rectpro) && object.mode == OBJECTMODE_BLOCK {
