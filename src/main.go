@@ -37,10 +37,15 @@ func main() {
 	player := NewPlayer(groundHeight)
 	mainCamera := rl.NewCamera2D(rl.NewVector2(float32(ScreenH)-500, float32(ScreenW)/2), rl.NewVector2(player.rectpro.rect.X, 400), 0, 1)
 
-	objects := make([]LevelObject, 5) //TODO: Write object initializer class
+	objects := make([]LevelObject, 7) //TODO: Write object initializer class
 	objects[0] = NewBlock(NewRectPro(float32(ScreenW), float32(ScreenH)-100-32, 64, 64, 0), 1, OBJECTMODE_BLOCK, 0)
 	objects[1] = NewBlock(NewRectPro(float32(ScreenW)+64, float32(ScreenH)-100-32, 64, 64, 0), 1, OBJECTMODE_BLOCK, 100)
-	objects[2] = NewBlock(NewRectPro(float32(ScreenW)+128, float32(ScreenH)-100-32, 64, 64, 0), 1, OBJECTMODE_BLOCK, 100)
+	objects[2] = NewBlock(NewRectPro(float32(ScreenW)+(64*2), float32(ScreenH)-100-32, 64, 64, 0), 1, OBJECTMODE_BLOCK, 100)
+	objects[3] = NewBlock(NewRectPro(float32(ScreenW)+(64*3), float32(ScreenH)-100-(32*5), 64, 64, 0), 1, OBJECTMODE_BLOCK, 100)
+	objects[4] = NewBlock(NewRectPro(float32(ScreenW)+(64*8), float32(ScreenH)-100-(32*7), 64, 64, 0), 1, OBJECTMODE_BLOCK, 100)
+	objects[5] = NewBlock(NewRectPro(float32(ScreenW)+(64*12), float32(ScreenH)-100-(32*9), 64, 64, 0), 1, OBJECTMODE_BLOCK, 100)
+	objects[6] = NewBlock(NewRectPro(float32(ScreenW)+(64*16), float32(ScreenH)-100-(32*11), 64, 64, 0), 1, OBJECTMODE_BLOCK, 100)
+
 
 
 	for !exitWindow {
