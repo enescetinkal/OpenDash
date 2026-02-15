@@ -12,7 +12,7 @@ const (
 	OBJECTMODE_ORB
 )
 
-var ObjectSprites []string = []string{"Resources/testBlock.png"}
+var ObjectSprites []string = []string{"Resources/testBlock.png", "Resources/testSpike.png"}
 
 type LevelObject struct {
 	rectpro        RectPro
