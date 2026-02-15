@@ -50,7 +50,7 @@ func (p *Player) Update(dt float32, groundHeight float32) {
 }
 
 func (p *Player) UpdateCollisions(object *LevelObject) {
-	if p.rectpro.CheckCollision(object.colliderTop) && object.mode == OBJECTMODE_BLOCK {
+	if p.rectpro.CheckCollision(object.colliders[0]) && object.mode == OBJECTMODE_BLOCK {
 		p.rectpro.rect.Y = object.rectpro.rect.Y - object.rectpro.origin.Y - p.rectpro.origin.Y
 		p.blockCollider.rect.Y = object.rectpro.rect.Y - object.rectpro.origin.Y - p.rectpro.origin.Y
 		p.yVelocity = 0
@@ -68,7 +68,7 @@ func NewPlayer(groundHeight float32) Player {
 		blockCollider: NewRectPro(0, float32(ScreenH)+groundHeight, 32, 32, 0),
 		yVelocity:     0,
 		jumpForce:     -500,
-		gravity:       1000,
+		gravity:       1200,
 		speed:         350,
 		onGround:      true,
 		depth:         63,
