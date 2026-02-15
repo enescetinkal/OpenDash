@@ -44,7 +44,7 @@ func main() {
 	objects[3] = NewBlock(NewRectPro(float32(ScreenW)+(64*3), float32(ScreenH)-100-(32*5), 64, 64, 0), 1, OBJECTMODE_BLOCK, 100)
 	objects[4] = NewBlock(NewRectPro(float32(ScreenW)+(64*8), float32(ScreenH)-100-(32*7), 64, 64, 0), 1, OBJECTMODE_BLOCK, 100)
 	objects[5] = NewBlock(NewRectPro(float32(ScreenW)+(64*12), float32(ScreenH)-100-(32*9), 64, 64, 0), 1, OBJECTMODE_BLOCK, 100)
-	objects[6] = NewBlock(NewRectPro(float32(ScreenW)+(64*16), float32(ScreenH)-100-(32*11), 64, 64, 0), 1, OBJECTMODE_BLOCK, 100)
+	objects[6] = NewBlock(NewRectPro(float32(ScreenW)+(64*17), float32(ScreenH)-100-(32*11), 64, 64, 0), 1, OBJECTMODE_BLOCK, 100)
 
 
 
