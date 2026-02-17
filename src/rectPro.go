@@ -1,7 +1,9 @@
 package main
 
-import rl "github.com/gen2brain/raylib-go/raylib"
-import "math"
+import (
+	rl "github.com/gen2brain/raylib-go/raylib"
+	"math"
+)
 
 type RectPro struct {
 	rect     rl.Rectangle
