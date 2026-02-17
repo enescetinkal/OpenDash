@@ -38,12 +38,12 @@ func NewObject(rectPro RectPro, collider RectPro, id uint, mode uint16, depth in
 	}
 }
 
-func NewBlock(rectpro RectPro, id uint, mode uint16, depth int8) LevelObject {
+func NewBlock(rectpro RectPro, id uint, depth int8) LevelObject {
 	return LevelObject{
 		rectpro:        rectpro,
 		colliders:    []RectPro{NewRectPro(rectpro.rect.X, rectpro.rect.Y-rectpro.origin.Y-1, rectpro.rect.Width - 6, 2, 0), NewRectPro(rectpro.rect.X, rectpro.rect.Y+rectpro.origin.Y+1, rectpro.rect.Width - 6, 2, 0)},
 		id:             id,
-		mode:           mode,
+		mode:           OBJECTMODE_BLOCK,
 
 		sprite: rl.LoadTexture(ObjectSprites[id-1]),
 		color:  rl.White,
