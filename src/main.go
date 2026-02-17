@@ -12,7 +12,10 @@ import (
 var debug *bool
 var noSound *bool
 
-const ScreenW, ScreenH int32 = 800, 600 //TODO: Read InitWindow sizes from a config file
+const (
+	ScreenW, ScreenH int32 = 800, 600
+	LEVEL_OBJECTLIMIT int = 32768
+) //TODO: Read InitWindow sizes from a config file
 
 func main() {
 	rl.InitWindow(ScreenW, ScreenH, "Open-Dash")
@@ -38,7 +41,7 @@ func main() {
 	player := NewPlayer(groundHeight)
 	mainCamera := rl.NewCamera2D(rl.NewVector2(float32(ScreenH)-500, float32(ScreenW)/2), rl.NewVector2(player.rectpro.rect.X, 400), 0, 1)
 
-	level := make([]LevelObject, 7) //TODO: Write object initializer class
+	level := make([]LevelObject, 8, LEVEL_OBJECTLIMIT) //TODO: Write object initializer class
 	level[0] = NewBlock(NewRectPro(float32(ScreenW), float32(ScreenH)-100-32, 64, 64, 0), 1, 0)
 	level[1] = NewBlock(NewRectPro(float32(ScreenW)+64, float32(ScreenH)-100-32, 64, 64, 90), 1, 100)
 	level[2] = NewBlock(NewRectPro(float32(ScreenW)+(64*2), float32(ScreenH)-100-32, 64, 64, 270), 1, 100)
@@ -46,6 +49,7 @@ func main() {
 	level[4] = NewBlock(NewRectPro(float32(ScreenW)+(64*8), float32(ScreenH)-100-(32*7), 64, 64, 0), 1, 100)
 	level[5] = NewBlock(NewRectPro(float32(ScreenW)+(64*12), float32(ScreenH)-100-(32*9), 64, 64, 0), 1, 100)
 	level[6] = NewBlock(NewRectPro(float32(ScreenW)+(64*17), float32(ScreenH)-100-(32*11), 64, 64, 0), 1, 100)
+	level[7] = NewSpike(NewRectPro(float32(ScreenW)+64, float32(ScreenH)-100-32-64, 64, 64, 0), 2, 20)
 
 	for !exitWindow {
 		if !showMessageBox {

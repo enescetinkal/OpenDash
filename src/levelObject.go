@@ -1,6 +1,8 @@
 package main
 
-import rl "github.com/gen2brain/raylib-go/raylib"
+import (
+	rl "github.com/gen2brain/raylib-go/raylib"
+)
 
 const (
 	OBJECTMODE_DECORATION uint16 = iota
@@ -41,9 +43,22 @@ func NewObject(rectPro RectPro, collider RectPro, id uint, mode uint16, depth in
 func NewBlock(rectpro RectPro, id uint, depth int8) LevelObject {
 	return LevelObject{
 		rectpro:   rectpro,
-		colliders: []RectPro{NewRectPro(rectpro.rect.X, rectpro.rect.Y-rectpro.origin.Y-1, rectpro.rect.Width-6, 2, 0), NewRectPro(rectpro.rect.X, rectpro.rect.Y+rectpro.origin.Y+1, rectpro.rect.Width-6, 2, 0)},
+		colliders: []RectPro{NewRectPro(rectpro.rect.X, rectpro.rect.Y-rectpro.origin.Y-1, rectpro.rect.Width-16, 2, 0), NewRectPro(rectpro.rect.X, rectpro.rect.Y+rectpro.origin.Y+1, rectpro.rect.Width-16, 2, 0)},
 		id:        id,
 		mode:      OBJECTMODE_BLOCK,
+
+		sprite: rl.LoadTexture(ObjectSprites[id-1]),
+		color:  rl.White,
+		depth:  depth,
+	}
+}
+
+func NewSpike(rectpro RectPro, id uint, depth int8) LevelObject {
+	return LevelObject{
+		rectpro:   rectpro,
+		colliders: []RectPro{NewRectPro(rectpro.rect.X, rectpro.rect.Y, rectpro.rect.Width/4, rectpro.rect.Height/2, rectpro.rotation)},
+		id:        id,
+		mode:      OBJECTMODE_SPIKE,
 
 		sprite: rl.LoadTexture(ObjectSprites[id-1]),
 		color:  rl.White,

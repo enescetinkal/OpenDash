@@ -14,6 +14,7 @@ type Player struct {
 
 	gravity float32
 	speed   float32
+	terminalVelocity float32
 	isDead  bool
 
 	depth int8
@@ -43,6 +44,7 @@ func (p *Player) Update(dt float32, groundHeight float32) {
 	}
 
 	p.rectpro.rect.X += p.speed * dt
+	rl.Clamp(p.yVelocity, -p.terminalVelocity, p.terminalVelocity)
 
 	p.blockCollider.rect.X = p.rectpro.rect.X
 	p.blockCollider.rect.Y = p.rectpro.rect.Y
@@ -69,7 +71,8 @@ func NewPlayer(groundHeight float32) Player {
 		yVelocity:     0,
 		jumpForce:     -500,
 		gravity:       1200,
-		speed:         350,
+		speed:         330,
+		terminalVelocity: 1300,
 		onGround:      true,
 		depth:         63,
 	}

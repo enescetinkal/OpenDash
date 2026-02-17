@@ -35,7 +35,7 @@ func (rp RectPro) GetCollider() rl.Rectangle {
 }
 
 func (rp RectPro) GetPosition() rl.Vector2 {
-	return rl.NewVector2(rp.rect.X-rp.rect.Width/2, rp.rect.Y-rp.rect.Height/2)
+	return rl.NewVector2(rp.rect.X-rp.origin.X, rp.rect.Y-rp.origin.Y)
 }
 
 func (rp RectPro) CheckCollision(other RectPro) bool {
