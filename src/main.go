@@ -8,14 +8,15 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
+//cmd arguments
 var debug *bool
 var noSound *bool
 
 const ScreenW, ScreenH int32 = 800, 600 //TODO: Read InitWindow sizes from a config file
 
 func main() {
-	rl.SetConfigFlags(rl.FlagVsyncHint)
 	rl.InitWindow(ScreenW, ScreenH, "Open-Dash")
+	rl.SetConfigFlags(rl.FlagVsyncHint)
 
 	rl.SetTargetFPS(60)
 	rl.SetExitKey(0)
