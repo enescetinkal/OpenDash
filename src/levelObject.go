@@ -15,10 +15,10 @@ const (
 var ObjectSprites []string = []string{"Resources/testBlock.png", "Resources/testSpike.png"}
 
 type LevelObject struct {
-	rectpro        RectPro
-	colliders     []RectPro
-	id             uint
-	mode           uint16
+	rectpro   RectPro
+	colliders []RectPro
+	id        uint
+	mode      uint16
 
 	sprite rl.Texture2D
 	color  rl.Color
@@ -27,10 +27,10 @@ type LevelObject struct {
 
 func NewObject(rectPro RectPro, collider RectPro, id uint, mode uint16, depth int8) LevelObject {
 	return LevelObject{
-		rectpro:        rectPro,
-		colliders:    []RectPro{collider},
-		id:             id,
-		mode:           mode,
+		rectpro:   rectPro,
+		colliders: []RectPro{collider},
+		id:        id,
+		mode:      mode,
 
 		sprite: rl.LoadTexture(ObjectSprites[id-1]),
 		color:  rl.White,
@@ -40,10 +40,10 @@ func NewObject(rectPro RectPro, collider RectPro, id uint, mode uint16, depth in
 
 func NewBlock(rectpro RectPro, id uint, depth int8) LevelObject {
 	return LevelObject{
-		rectpro:        rectpro,
-		colliders:    []RectPro{NewRectPro(rectpro.rect.X, rectpro.rect.Y-rectpro.origin.Y-1, rectpro.rect.Width - 6, 2, 0), NewRectPro(rectpro.rect.X, rectpro.rect.Y+rectpro.origin.Y+1, rectpro.rect.Width - 6, 2, 0)},
-		id:             id,
-		mode:           OBJECTMODE_BLOCK,
+		rectpro:   rectpro,
+		colliders: []RectPro{NewRectPro(rectpro.rect.X, rectpro.rect.Y-rectpro.origin.Y-1, rectpro.rect.Width-6, 2, 0), NewRectPro(rectpro.rect.X, rectpro.rect.Y+rectpro.origin.Y+1, rectpro.rect.Width-6, 2, 0)},
+		id:        id,
+		mode:      OBJECTMODE_BLOCK,
 
 		sprite: rl.LoadTexture(ObjectSprites[id-1]),
 		color:  rl.White,
@@ -52,13 +52,13 @@ func NewBlock(rectpro RectPro, id uint, depth int8) LevelObject {
 }
 
 func (object *LevelObject) Draw() {
-	rl.DrawTextureEx(object.sprite, object.rectpro.GetPosition(), object.rectpro.rotation, 1, object.color)
+	rl.DrawTexturePro(object.sprite, rl.NewRectangle(0, 0, object.rectpro.rect.Width, object.rectpro.rect.Height), object.rectpro.rect, object.rectpro.origin, object.rectpro.rotation, object.color)
 
 	if *debug {
 		rl.DrawRectangleLinesEx(object.rectpro.GetCollider(), 2, rl.Green)
 		rl.DrawCircle(int32(object.rectpro.rect.X), int32(object.rectpro.rect.Y), 2, rl.Green)
 
-		for i := 0; i < len(object.colliders); i++{
+		for i := 0; i < len(object.colliders); i++ {
 			rl.DrawRectangleLinesEx(object.colliders[i].GetCollider(), 2, rl.Yellow)
 			//rl.DrawCircle(int32(object.colliders[i].rect.X), int32(object.colliders[i].rect.Y), 2, rl.Green)
 		}

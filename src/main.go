@@ -40,8 +40,8 @@ func main() {
 
 	level := make([]LevelObject, 7) //TODO: Write object initializer class
 	level[0] = NewBlock(NewRectPro(float32(ScreenW), float32(ScreenH)-100-32, 64, 64, 0), 1, 0)
-	level[1] = NewBlock(NewRectPro(float32(ScreenW)+64, float32(ScreenH)-100-32, 64, 64, 0), 1, 100)
-	level[2] = NewBlock(NewRectPro(float32(ScreenW)+(64*2), float32(ScreenH)-100-32, 64, 64, 0), 1, 100)
+	level[1] = NewBlock(NewRectPro(float32(ScreenW)+64, float32(ScreenH)-100-32, 64, 64, 90), 1, 100)
+	level[2] = NewBlock(NewRectPro(float32(ScreenW)+(64*2), float32(ScreenH)-100-32, 64, 64, 270), 1, 100)
 	level[3] = NewBlock(NewRectPro(float32(ScreenW)+(64*3), float32(ScreenH)-100-(32*5), 64, 64, 0), 1, 100)
 	level[4] = NewBlock(NewRectPro(float32(ScreenW)+(64*8), float32(ScreenH)-100-(32*7), 64, 64, 0), 1, 100)
 	level[5] = NewBlock(NewRectPro(float32(ScreenW)+(64*12), float32(ScreenH)-100-(32*9), 64, 64, 0), 1, 100)

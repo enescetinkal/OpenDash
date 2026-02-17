@@ -42,12 +42,15 @@ func (rp RectPro) CheckCollision(other RectPro) bool {
 	return rl.CheckCollisionRecs(rp.GetCollider(), other.GetCollider())
 }
 
-func (rp RectPro) Rotate(r float32) {
-	if int(math.Floor(float64(r) / 90)) % 2 == 0{
+func (rp *RectPro) Rotate(r float32) {
+	if int(math.Floor(float64(r) / 90)) % 2 != 0{
 		tempWitdh := rp.rect.Width
 		rp.rect.Width = rp.rect.Height
 		rp.rect.Height = tempWitdh
+
+		rp.origin.X = rp.rect.Width / 2
+		rp.origin.Y = rp.rect.Height / 2
 	}
-	
+
 	rp.rotation = r
 }
