@@ -49,7 +49,7 @@ func main() {
 	level[4] = NewBlock(NewRectPro(float32(ScreenW)+(64*8), float32(ScreenH)-100-(32*7), 64, 64, 0), 1, 100)
 	level[5] = NewBlock(NewRectPro(float32(ScreenW)+(64*12), float32(ScreenH)-100-(32*9), 64, 64, 0), 1, 100)
 	level[6] = NewBlock(NewRectPro(float32(ScreenW)+(64*17), float32(ScreenH)-100-(32*11), 64, 64, 0), 1, 100)
-	level[7] = NewSpike(NewRectPro(float32(ScreenW)+64, float32(ScreenH)-100-32-64, 64, 64, 0), 2, 20)
+	level[7] = NewSpike(NewRectPro(float32(ScreenW)+(64*4), float32(ScreenH)-100-32, 64, 64, 0), 2, 20)
 
 	for !exitWindow {
 		if !showMessageBox {

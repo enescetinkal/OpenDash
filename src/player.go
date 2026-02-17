@@ -62,6 +62,10 @@ func (p *Player) UpdateCollisions(object *LevelObject) {
 	if p.blockCollider.CheckCollision(object.rectpro) && object.mode == OBJECTMODE_BLOCK {
 		p.isDead = true
 	}
+
+	if p.rectpro.CheckCollision(object.colliders[0]) && object.mode == OBJECTMODE_SPIKE{
+		p.isDead = true
+	}
 }
 
 func NewPlayer(groundHeight float32) Player {
