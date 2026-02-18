@@ -52,18 +52,20 @@ func (p *Player) Update(dt float32, groundHeight float32) {
 }
 
 func (p *Player) UpdateCollisions(object *LevelObject) {
-	if p.rectpro.CheckCollision(object.colliders[0]) && object.mode == OBJECTMODE_BLOCK {
-		p.rectpro.rect.Y = object.rectpro.rect.Y - object.rectpro.origin.Y - p.rectpro.origin.Y
-		p.blockCollider.rect.Y = object.rectpro.rect.Y - object.rectpro.origin.Y - p.rectpro.origin.Y
-		p.yVelocity = 0
-		p.onGround = true
+	if p.rectpro.CheckCollision(object.colliders[0]){
+		switch object.mode{
+		case OBJECTMODE_BLOCK:
+			p.rectpro.rect.Y = object.rectpro.rect.Y - object.rectpro.origin.Y - p.rectpro.origin.Y
+			p.blockCollider.rect.Y = object.rectpro.rect.Y - object.rectpro.origin.Y - p.rectpro.origin.Y
+			p.yVelocity = 0
+			p.onGround = true
+
+		case OBJECTMODE_SPIKE:
+			p.isDead = true
+		}
 	}
 
 	if p.blockCollider.CheckCollision(object.rectpro) && object.mode == OBJECTMODE_BLOCK {
-		p.isDead = true
-	}
-
-	if p.rectpro.CheckCollision(object.colliders[0]) && object.mode == OBJECTMODE_SPIKE{
 		p.isDead = true
 	}
 }
