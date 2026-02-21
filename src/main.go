@@ -34,6 +34,11 @@ func main() {
 
 	backgroundColor := rl.SkyBlue
 
+	/*var ObjectList []LevelObject = []LevelObject{
+		NewBlock(NewRectPro(0, 0, 64, 64, 0), 1, 0),
+		NewSpike(NewRectPro(0, 0, 64, 64, 0), 2, 0),
+	}*/
+
 	var groundHeight float32 = float32(ScreenH) - 100
 	groundRect := rl.NewRectangle(0, groundHeight, float32(ScreenW)*4, float32(ScreenH)*2)
 	groundColor := rl.Blue

@@ -20,7 +20,7 @@ type Level struct{
 	objects []LevelObject
 }
 
-func LoadLevel(filename string) (Level, error) {
+func InitalizeLevel(filename string, objList *[]LevelObject) (Level, error) {
     var lvl Level
 
     data, err := os.ReadFile(filename)
@@ -29,4 +29,15 @@ func LoadLevel(filename string) (Level, error) {
     }
     err = json.Unmarshal(data, &lvl)
     return lvl, err
+}
+
+func SaveLevel(filename string, lvl Level) error {
+    // Update the timestamp right before serializing
+    lvl.updateDate = time.Now()
+
+    data, err := json.MarshalIndent(lvl, "", "  ")
+    if err != nil {
+        return err
+    }
+    return os.WriteFile(filename, data, 0644)
 }
