@@ -14,6 +14,7 @@ var debug *bool
 var noSound *bool
 
 var ObjectList []LevelObject
+var ObjectSprites []rl.Texture2D = make([]rl.Texture2D, 2)
 
 const (
 	ScreenW, ScreenH  int32 = 800, 600
@@ -41,6 +42,8 @@ func main() {
 		NewBlock(NewRectPro(0, 0, 64, 64, 0), 1, 0),
 		NewSpike(NewRectPro(0, 0, 64, 64, 0), 2, 0),
 	}
+	
+	ObjectSprites = []rl.Texture2D{rl.LoadTexture("Resources/testBlock.png"), rl.LoadTexture("Resources/testSpike.png")}
 
 	var groundHeight float32 = float32(ScreenH) - 100
 	groundRect := rl.NewRectangle(0, groundHeight, float32(ScreenW)*4, float32(ScreenH)*2)

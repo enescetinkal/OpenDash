@@ -14,8 +14,6 @@ const (
 	OBJECTMODE_ORB
 )
 
-var ObjectSprites []string = []string{"Resources/testBlock.png", "Resources/testSpike.png"}
-
 type LevelObject struct {
 	rectpro   RectPro
 	colliders []RectPro
@@ -34,7 +32,7 @@ func NewObject(rectPro RectPro, collider RectPro, id uint, mode uint16, depth in
 		id:        id,
 		mode:      mode,
 
-		sprite: rl.LoadTexture(ObjectSprites[id-1]),
+		sprite: ObjectSprites[id-1],
 		color:  rl.White,
 		depth:  depth,
 	}
@@ -70,7 +68,7 @@ func NewBlock(rectpro RectPro, id uint, depth int8) LevelObject {
 		id:        id,
 		mode:      OBJECTMODE_BLOCK,
 
-		sprite: rl.LoadTexture(ObjectSprites[id-1]),
+		sprite: ObjectSprites[id-1],
 		color:  rl.White,
 		depth:  depth,
 	}
@@ -83,7 +81,7 @@ func NewSpike(rectpro RectPro, id uint, depth int8) LevelObject {
 		id:        id,
 		mode:      OBJECTMODE_SPIKE,
 
-		sprite: rl.LoadTexture(ObjectSprites[id-1]),
+		sprite: ObjectSprites[id-1],
 		color:  rl.White,
 		depth:  depth,
 	}
