@@ -42,7 +42,7 @@ func NewObject(rectPro RectPro, collider RectPro, id uint, mode uint16, depth in
 
 
 // Makes a LevelObject from a CondensedObject.
-func NewObjectFromReference(objList []LevelObject, condenced CondensedObject) LevelObject{
+func NewObjectFromReference(objList []LevelObject, condenced CondensedObject) LevelObject {
 	// yes, i do know that "objList []LevelObject" is taxing on the memory
 	tempObject := objList[condenced.id - 1]
 
@@ -52,6 +52,16 @@ func NewObjectFromReference(objList []LevelObject, condenced CondensedObject) Le
 	tempObject.depth = condenced.depth
 
 	return tempObject
+}
+
+func (object *LevelObject) Condence() CondensedObject {
+	return CondensedObject {
+		x: object.rectpro.rect.X,
+		y: object.rectpro.rect.Y,
+		rotation: object.rectpro.rotation,
+		id: object.id,
+		depth: object.depth,
+	}
 }
 
 func NewBlock(rectpro RectPro, id uint, depth int8) LevelObject {

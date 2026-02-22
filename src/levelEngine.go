@@ -20,7 +20,7 @@ type Level struct{
 	objects []LevelObject
 }
 
-func InitalizeLevel(filename string, objList *[]LevelObject) (Level, error) {
+func InitalizeLevel(filename string) (Level, error) {
     var lvl Level
 
     data, err := os.ReadFile(filename)
@@ -33,11 +33,17 @@ func InitalizeLevel(filename string, objList *[]LevelObject) (Level, error) {
 
 func SaveLevel(filename string, lvl Level) error {
     // Update the timestamp right before serializing
-    lvl.updateDate = time.Now()
+    jsonLevel := make([]CondensedObject, 8, LEVEL_OBJECTLIMIT)
 
-    data, err := json.MarshalIndent(lvl, "", "  ")
+    for i := range lvl.objects {
+        cond := lvl.objects[i].Condence()
+        jsonLevel = append(jsonLevel, cond)
+    }
+
+
+    data, err := json.MarshalIndent(jsonLevel, "", "  ")
     if err != nil {
         return err
     }
-    return os.WriteFile(filename, data, 0644)
+    return os.WriteFile(filename + ".json", data, 0644)
 }

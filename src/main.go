@@ -21,7 +21,7 @@ func main() {
 	rl.InitWindow(ScreenW, ScreenH, "Open-Dash")
 	rl.SetConfigFlags(rl.FlagVsyncHint)
 
-	rl.SetTargetFPS(60)
+	rl.SetTargetFPS(240)
 	rl.SetExitKey(0)
 
 	var dt float32
@@ -46,15 +46,19 @@ func main() {
 	player := NewPlayer(groundHeight)
 	mainCamera := rl.NewCamera2D(rl.NewVector2(float32(ScreenH)-500, float32(ScreenW)/2), rl.NewVector2(player.rectpro.rect.X, 400), 0, 1)
 
-	level := make([]LevelObject, 8, LEVEL_OBJECTLIMIT) //TODO: Write object initializer class
-	level[0] = NewBlock(NewRectPro(float32(ScreenW), float32(ScreenH)-100-32, 64, 64, 0), 1, 0)
-	level[1] = NewBlock(NewRectPro(float32(ScreenW)+64, float32(ScreenH)-100-32, 64, 64, 90), 1, 100)
-	level[2] = NewBlock(NewRectPro(float32(ScreenW)+(64*2), float32(ScreenH)-100-32, 64, 64, 270), 1, 100)
-	level[3] = NewBlock(NewRectPro(float32(ScreenW)+(64*3), float32(ScreenH)-100-(32*5), 64, 64, 0), 1, 100)
-	level[4] = NewBlock(NewRectPro(float32(ScreenW)+(64*8), float32(ScreenH)-100-(32*7), 64, 64, 0), 1, 100)
-	level[5] = NewBlock(NewRectPro(float32(ScreenW)+(64*12), float32(ScreenH)-100-(32*9), 64, 64, 0), 1, 100)
-	level[6] = NewBlock(NewRectPro(float32(ScreenW)+(64*17), float32(ScreenH)-100-(32*11), 64, 64, 0), 1, 100)
-	level[7] = NewSpike(NewRectPro(float32(ScreenW)+(64*4), float32(ScreenH)-100-32, 64, 64, 0), 2, 20)
+	level := Level {
+		name: "idk",
+		objects: make([]LevelObject, 8, LEVEL_OBJECTLIMIT),
+	} //TODO: Write object initializer class
+
+	level.objects[0] = NewBlock(NewRectPro(float32(ScreenW), float32(ScreenH)-100-32, 64, 64, 0), 1, 0)
+	level.objects[1] = NewBlock(NewRectPro(float32(ScreenW)+64, float32(ScreenH)-100-32, 64, 64, 90), 1, 100)
+	level.objects[2] = NewBlock(NewRectPro(float32(ScreenW)+(64*2), float32(ScreenH)-100-32, 64, 64, 270), 1, 100)
+	level.objects[3] = NewBlock(NewRectPro(float32(ScreenW)+(64*3), float32(ScreenH)-100-(32*5), 64, 64, 0), 1, 100)
+	level.objects[4] = NewBlock(NewRectPro(float32(ScreenW)+(64*8), float32(ScreenH)-100-(32*7), 64, 64, 0), 1, 100)
+	level.objects[5] = NewBlock(NewRectPro(float32(ScreenW)+(64*12), float32(ScreenH)-100-(32*9), 64, 64, 0), 1, 100)
+	level.objects[6] = NewBlock(NewRectPro(float32(ScreenW)+(64*17), float32(ScreenH)-100-(32*11), 64, 64, 0), 1, 100)
+	level.objects[7] = NewSpike(NewRectPro(float32(ScreenW)+(64*4), float32(ScreenH)-100-32, 64, 64, 0), 2, 20)
 
 	for !exitWindow {
 		if !showMessageBox {
@@ -66,8 +70,8 @@ func main() {
 			}
 
 			player.Update(dt, groundHeight)
-			for i := 0; i < len(level); i++ {
-				player.UpdateCollisions(&level[i])
+			for i := 0; i < len(level.objects); i++ {
+				player.UpdateCollisions(&level.objects[i])
 			}
 			if *debug {print(player.onGround)}
 
@@ -77,6 +81,10 @@ func main() {
 
 			if rl.IsKeyPressed(rl.KeyR) {
 				player = NewPlayer(groundHeight)
+			}
+
+			if rl.IsKeyPressed(rl.KeyS) {
+				SaveLevel("idk", level)
 			}
 		}
 
@@ -93,9 +101,9 @@ func main() {
 				player.blockCollider.Draw(rl.Blue)
 			}
 
-			for j := int(0); j < len(level); j++ {
-				if level[j].depth == i {
-					level[j].Draw()
+			for j := int(0); j < len(level.objects); j++ {
+				if level.objects[j].depth == i {
+					level.objects[j].Draw()
 				}
 			}
 		}
