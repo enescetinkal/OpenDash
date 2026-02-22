@@ -7,11 +7,11 @@ import (
 )
 
 type CondensedObject struct {
-	x        float32
-	y        float32
-	rotation float32
-	id       uint
-	depth    int8
+	X        float32
+	Y        float32
+	Rotation float32
+	Id       uint
+	Depth    int8
 }
 
 type SavedLevel struct {
