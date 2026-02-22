@@ -3,18 +3,21 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 
 	gui "github.com/gen2brain/raylib-go/raygui"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
-//cmd arguments
+// cmd arguments
 var debug *bool
 var noSound *bool
 
+var ObjectList []LevelObject
+
 const (
-	ScreenW, ScreenH int32 = 800, 600
-	LEVEL_OBJECTLIMIT int = 32768
+	ScreenW, ScreenH  int32 = 800, 600
+	LEVEL_OBJECTLIMIT int   = 32768
 ) //TODO: Read InitWindow sizes from a config file
 
 func main() {
@@ -34,10 +37,10 @@ func main() {
 
 	backgroundColor := rl.SkyBlue
 
-	/*var ObjectList []LevelObject = []LevelObject{
+	ObjectList = []LevelObject{
 		NewBlock(NewRectPro(0, 0, 64, 64, 0), 1, 0),
 		NewSpike(NewRectPro(0, 0, 64, 64, 0), 2, 0),
-	}*/
+	}
 
 	var groundHeight float32 = float32(ScreenH) - 100
 	groundRect := rl.NewRectangle(0, groundHeight, float32(ScreenW)*4, float32(ScreenH)*2)
@@ -46,8 +49,8 @@ func main() {
 	player := NewPlayer(groundHeight)
 	mainCamera := rl.NewCamera2D(rl.NewVector2(float32(ScreenH)-500, float32(ScreenW)/2), rl.NewVector2(player.rectpro.rect.X, 400), 0, 1)
 
-	level := Level {
-		name: "idk",
+	level := Level{
+		name:    "idk",
 		objects: make([]LevelObject, 8, LEVEL_OBJECTLIMIT),
 	} //TODO: Write object initializer class
 
@@ -73,7 +76,9 @@ func main() {
 			for i := 0; i < len(level.objects); i++ {
 				player.UpdateCollisions(&level.objects[i])
 			}
-			if *debug {print(player.onGround)}
+			if *debug {
+				print(player.onGround)
+			}
 
 			mainCamera.Target = rl.NewVector2(player.rectpro.rect.X, 400)
 
@@ -84,7 +89,10 @@ func main() {
 			}
 
 			if rl.IsKeyPressed(rl.KeyS) {
-				SaveLevel("idk", level)
+				err := SaveLevel("idk", level)
+				if err != nil {
+					log.Fatal(err)
+				}
 			}
 		}
 

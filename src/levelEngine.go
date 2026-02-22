@@ -1,49 +1,76 @@
 package main
 
 import (
+	"encoding/json"
 	"os"
 	"time"
-	"encoding/json"
 )
 
-type CondensedObject struct{
-	x float32
-	y float32
+type CondensedObject struct {
+	x        float32
+	y        float32
 	rotation float32
-	id uint
-	depth int8
+	id       uint
+	depth    int8
 }
 
-type Level struct{
-	name string
+type SavedLevel struct {
+	Name       string
+	UpdateDate time.Time
+	Objects    []CondensedObject
+}
+
+type Level struct {
+	name       string
 	updateDate time.Time
-	objects []LevelObject
+	objects    []LevelObject
 }
 
 func InitalizeLevel(filename string) (Level, error) {
-    var lvl Level
+	var savedLevel SavedLevel
 
-    data, err := os.ReadFile(filename)
-    if err != nil {
-        return lvl, err
-    }
-    err = json.Unmarshal(data, &lvl)
-    return lvl, err
+	data, err := os.ReadFile(filename)
+	if err != nil {
+		return Level{}, err
+	}
+	err = json.Unmarshal(data, &savedLevel)
+	if err != nil {
+		return Level{}, err
+	}
+
+	lvl := Level{
+		name:       savedLevel.Name,
+		updateDate: savedLevel.UpdateDate,
+		objects:    make([]LevelObject, 0, len(savedLevel.Objects)),
+	}
+
+	for _, cond := range savedLevel.Objects {
+		obj := NewObjectFromReference(ObjectList, cond)
+		lvl.objects = append(lvl.objects, obj)
+	}
+
+	return lvl, nil
 }
 
 func SaveLevel(filename string, lvl Level) error {
-    // Update the timestamp right before serializing
-    jsonLevel := make([]CondensedObject, 8, LEVEL_OBJECTLIMIT)
+	// Update the timestamp right before serializing
+	lvl.updateDate = time.Now()
 
-    for i := range lvl.objects {
-        cond := lvl.objects[i].Condence()
-        jsonLevel = append(jsonLevel, cond)
-    }
+	savedLevel := SavedLevel{
+		Name:       lvl.name,
+		UpdateDate: lvl.updateDate,
+		Objects:    make([]CondensedObject, 0, len(lvl.objects)),
+	}
 
+	for _, obj := range lvl.objects {
+		if obj.IsValid() { // Only save objects with valid ids
+			savedLevel.Objects = append(savedLevel.Objects, obj.Condence())
+		}
+	}
 
-    data, err := json.MarshalIndent(jsonLevel, "", "  ")
-    if err != nil {
-        return err
-    }
-    return os.WriteFile(filename + ".json", data, 0644)
+	data, err := json.MarshalIndent(savedLevel, "", "  ")
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(filename+".json", data, 0644)
 }

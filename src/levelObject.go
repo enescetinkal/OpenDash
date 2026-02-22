@@ -40,14 +40,13 @@ func NewObject(rectPro RectPro, collider RectPro, id uint, mode uint16, depth in
 	}
 }
 
-
 // Makes a LevelObject from a CondensedObject.
 func NewObjectFromReference(objList []LevelObject, condenced CondensedObject) LevelObject {
 	// yes, i do know that "objList []LevelObject" is taxing on the memory
-	tempObject := objList[condenced.id - 1]
+	tempObject := objList[condenced.id-1]
 
 	tempObject.rectpro.rect.X = condenced.x
-	tempObject.rectpro.rect.Y = condenced.x
+	tempObject.rectpro.rect.Y = condenced.y
 	tempObject.rectpro.rotation = condenced.rotation
 	tempObject.depth = condenced.depth
 
@@ -55,12 +54,12 @@ func NewObjectFromReference(objList []LevelObject, condenced CondensedObject) Le
 }
 
 func (object *LevelObject) Condence() CondensedObject {
-	return CondensedObject {
-		x: object.rectpro.rect.X,
-		y: object.rectpro.rect.Y,
+	return CondensedObject{
+		x:        object.rectpro.rect.X,
+		y:        object.rectpro.rect.Y,
 		rotation: object.rectpro.rotation,
-		id: object.id,
-		depth: object.depth,
+		id:       object.id,
+		depth:    object.depth,
 	}
 }
 
@@ -102,4 +101,8 @@ func (object *LevelObject) Draw() {
 			//rl.DrawCircle(int32(object.colliders[i].rect.X), int32(object.colliders[i].rect.Y), 2, rl.Green)
 		}
 	}
+}
+
+func (object *LevelObject) IsValid() bool {
+	return object.id > 0 && object.id < uint(len(ObjectList))
 }
