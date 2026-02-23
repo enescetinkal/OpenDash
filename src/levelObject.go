@@ -1,6 +1,7 @@
 package main
 
 import (
+	"slices"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -43,6 +44,9 @@ func NewObjectFromReference(objList []LevelObject, condenced CondensedObject) Le
 	// yes, i do know that "objList []LevelObject" is taxing on the memory
 	tempObject := objList[condenced.Id-1]
 
+	// thanks @NULLDEREF for this fix
+	tempObject.colliders = slices.Clone(tempObject.colliders)
+
 	tempObject.rectpro.rect.X = condenced.X
 	tempObject.rectpro.rect.Y = condenced.Y
 	tempObject.rectpro.Rotate(condenced.Rotation)
@@ -50,7 +54,6 @@ func NewObjectFromReference(objList []LevelObject, condenced CondensedObject) Le
 	for i := range tempObject.colliders {
 		tempObject.colliders[i].rect.X += condenced.X
 		tempObject.colliders[i].rect.Y += condenced.Y
-		tempObject.colliders[i].Rotate(condenced.Rotation)
 	}
 	tempObject.depth = condenced.Depth
 
@@ -108,5 +111,5 @@ func (object *LevelObject) Draw() {
 }
 
 func (object *LevelObject) IsValid() bool {
-	return object.id > 0 && object.id < uint(len(ObjectList))
+	return object.id > 0 && object.id <= uint(len(ObjectList))
 }

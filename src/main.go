@@ -38,12 +38,12 @@ func main() {
 
 	backgroundColor := rl.SkyBlue
 
+	ObjectSprites = []rl.Texture2D{rl.LoadTexture("Resources/testBlock.png"), rl.LoadTexture("Resources/testSpike.png")}
+
 	ObjectList = []LevelObject{
 		NewBlock(NewRectPro(0, 0, 64, 64, 0), 1, 0),
 		NewSpike(NewRectPro(0, 0, 64, 64, 0), 2, 0),
 	}
-	
-	ObjectSprites = []rl.Texture2D{rl.LoadTexture("Resources/testBlock.png"), rl.LoadTexture("Resources/testSpike.png")}
 
 	var groundHeight float32 = float32(ScreenH) - 100
 	groundRect := rl.NewRectangle(0, groundHeight, float32(ScreenW)*4, float32(ScreenH)*2)
