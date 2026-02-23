@@ -12,10 +12,10 @@ type Player struct {
 	jumpForce float32
 	onGround  bool
 
-	gravity float32
-	speed   float32
+	gravity          float32
+	speed            float32
 	terminalVelocity float32
-	isDead  bool
+	isDead           bool
 
 	depth int8
 }
@@ -36,6 +36,8 @@ func (p *Player) Update(dt float32, groundHeight float32) {
 		p.onGround = false
 	}
 
+	rl.Clamp(p.yVelocity, -p.terminalVelocity, p.terminalVelocity)
+
 	p.rectpro.rect.Y += p.yVelocity * dt
 	if !p.onGround {
 		p.yVelocity += p.gravity * dt
@@ -44,7 +46,6 @@ func (p *Player) Update(dt float32, groundHeight float32) {
 	}
 
 	p.rectpro.rect.X += p.speed * dt
-	rl.Clamp(p.yVelocity, -p.terminalVelocity, p.terminalVelocity)
 
 	p.blockCollider.rect.X = p.rectpro.rect.X
 	p.blockCollider.rect.Y = p.rectpro.rect.Y
@@ -52,8 +53,8 @@ func (p *Player) Update(dt float32, groundHeight float32) {
 }
 
 func (p *Player) UpdateCollisions(object *LevelObject) {
-	if p.rectpro.CheckCollision(object.colliders[0]){
-		switch object.mode{
+	if p.rectpro.CheckCollision(object.colliders[0]) {
+		switch object.mode {
 		case OBJECTMODE_BLOCK:
 			p.rectpro.rect.Y = object.rectpro.rect.Y - object.rectpro.origin.Y - p.rectpro.origin.Y
 			p.blockCollider.rect.Y = object.rectpro.rect.Y - object.rectpro.origin.Y - p.rectpro.origin.Y
@@ -72,14 +73,14 @@ func (p *Player) UpdateCollisions(object *LevelObject) {
 
 func NewPlayer(groundHeight float32) Player {
 	return Player{
-		rectpro:       NewRectPro(0, float32(ScreenH)+groundHeight, 64, 64, 0),
-		blockCollider: NewRectPro(0, float32(ScreenH)+groundHeight, 32, 32, 0),
-		yVelocity:     0,
-		jumpForce:     -500,
-		gravity:       1200,
-		speed:         330,
+		rectpro:          NewRectPro(0, float32(ScreenH)+groundHeight, 64, 64, 0),
+		blockCollider:    NewRectPro(0, float32(ScreenH)+groundHeight, 32, 32, 0),
+		yVelocity:        0,
+		jumpForce:        -500,
+		gravity:          1200,
+		speed:            330,
 		terminalVelocity: 1300,
-		onGround:      true,
-		depth:         63,
+		onGround:         true,
+		depth:            63,
 	}
 }

@@ -45,7 +45,13 @@ func NewObjectFromReference(objList []LevelObject, condenced CondensedObject) Le
 
 	tempObject.rectpro.rect.X = condenced.X
 	tempObject.rectpro.rect.Y = condenced.Y
-	tempObject.rectpro.rotation = condenced.Rotation
+	tempObject.rectpro.Rotate(condenced.Rotation)
+
+	for i := range tempObject.colliders {
+		tempObject.colliders[i].rect.X += condenced.X
+		tempObject.colliders[i].rect.Y += condenced.Y
+		tempObject.colliders[i].Rotate(condenced.Rotation)
+	}
 	tempObject.depth = condenced.Depth
 
 	return tempObject

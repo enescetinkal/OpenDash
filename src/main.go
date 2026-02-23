@@ -52,19 +52,11 @@ func main() {
 	player := NewPlayer(groundHeight)
 	mainCamera := rl.NewCamera2D(rl.NewVector2(float32(ScreenH)-500, float32(ScreenW)/2), rl.NewVector2(player.rectpro.rect.X, 400), 0, 1)
 
-	level := Level{
-		name:    "idk",
-		objects: make([]LevelObject, 8, LEVEL_OBJECTLIMIT),
-	} //TODO: Write object initializer class
+	level, err := InitalizeLevel("idk.json")
 
-	level.objects[0] = NewBlock(NewRectPro(float32(ScreenW), float32(ScreenH)-100-32, 64, 64, 0), 1, 0)
-	level.objects[1] = NewBlock(NewRectPro(float32(ScreenW)+64, float32(ScreenH)-100-32, 64, 64, 90), 1, 100)
-	level.objects[2] = NewBlock(NewRectPro(float32(ScreenW)+(64*2), float32(ScreenH)-100-32, 64, 64, 270), 1, 100)
-	level.objects[3] = NewBlock(NewRectPro(float32(ScreenW)+(64*3), float32(ScreenH)-100-(32*5), 64, 64, 0), 1, 100)
-	level.objects[4] = NewBlock(NewRectPro(float32(ScreenW)+(64*8), float32(ScreenH)-100-(32*7), 64, 64, 0), 1, 100)
-	level.objects[5] = NewBlock(NewRectPro(float32(ScreenW)+(64*12), float32(ScreenH)-100-(32*9), 64, 64, 0), 1, 100)
-	level.objects[6] = NewBlock(NewRectPro(float32(ScreenW)+(64*17), float32(ScreenH)-100-(32*11), 64, 64, 0), 1, 100)
-	level.objects[7] = NewSpike(NewRectPro(float32(ScreenW)+(64*4), float32(ScreenH)-100-32, 64, 64, 0), 2, 20)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	for !exitWindow {
 		if !showMessageBox {
