@@ -12,6 +12,7 @@ import (
 // cmd arguments
 var debug *bool
 var noSound *bool
+var editorMode *bool
 
 var ObjectList []LevelObject
 var ObjectSprites []rl.Texture2D = make([]rl.Texture2D, 2)
@@ -34,6 +35,7 @@ func main() {
 
 	debug = flag.Bool("debug", false, "Debug Mode")
 	noSound = flag.Bool("noSound", false, "Disable Sounds")
+	editorMode = flag.Bool("editor", false, "Editor")
 	flag.Parse()
 
 	backgroundColor := rl.SkyBlue
@@ -59,7 +61,7 @@ func main() {
 	}
 
 	for !exitWindow {
-		if !showMessageBox {
+		if (!showMessageBox) || (!*editorMode) {
 			dt = rl.GetFrameTime()
 			exitWindow = rl.WindowShouldClose()
 
@@ -89,6 +91,8 @@ func main() {
 					log.Fatal(err)
 				}
 			}
+		} else {
+			
 		}
 
 		rl.BeginDrawing()
