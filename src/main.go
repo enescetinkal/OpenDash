@@ -19,7 +19,7 @@ var ObjectSprites []rl.Texture2D = make([]rl.Texture2D, 2)
 
 const (
 	ScreenW, ScreenH  int32 = 800, 600
-	LEVEL_OBJECTLIMIT int   = 32768 //Why do we need an object limit? that should be handled by the user
+	LEVEL_OBJECTLIMIT int   = 32768
 ) //TODO: Read InitWindow sizes from a config file
 
 func main() {
