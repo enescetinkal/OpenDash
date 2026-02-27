@@ -60,15 +60,29 @@ func main() {
 		log.Fatal(err)
 	}
 
+	editor := InitalizeEditor()
+
 	for !exitWindow {
-		if (!showMessageBox) || (!*editorMode) {
-			dt = rl.GetFrameTime()
-			exitWindow = rl.WindowShouldClose()
+		dt = rl.GetFrameTime()
+		exitWindow = rl.WindowShouldClose()
 
-			if rl.IsKeyPressed(rl.KeyEscape) {
-				showMessageBox = !showMessageBox
-			}
+		if rl.IsKeyPressed(rl.KeyEscape) {
+			showMessageBox = !showMessageBox
+		}
 
+		rl.BeginDrawing()
+		rl.ClearBackground(backgroundColor)
+
+		if *editorMode {
+			// Basic editor mode
+			editor.MousePosition = rl.GetMousePosition()
+			editor.Update(dt)
+			rl.DrawText("Editor Mode", 10, 10, 30, rl.RayWhite)
+			rl.DrawRectangleRec(groundRect, groundColor)
+			rl.DrawText(fmt.Sprintf("Mouse X: %.2f Y: %.2f", editor.MousePosition.X, editor.MousePosition.Y), 10, 50, 20, rl.RayWhite)
+			// Add more editor features here
+		} else {
+			// Game mode
 			player.Update(dt, groundHeight)
 			for i := 0; i < len(level.objects); i++ {
 				player.UpdateCollisions(&level.objects[i])
@@ -78,7 +92,6 @@ func main() {
 			}
 
 			mainCamera.Target = rl.NewVector2(player.rectpro.rect.X, 400)
-
 			groundRect.X = player.rectpro.rect.X - groundRect.Width/2
 
 			if rl.IsKeyPressed(rl.KeyR) {
@@ -91,34 +104,28 @@ func main() {
 					log.Fatal(err)
 				}
 			}
-		} else {
-			
-		}
 
-		rl.BeginDrawing()
-		rl.ClearBackground(backgroundColor)
+			rl.BeginMode2D(mainCamera)
+			rl.DrawRectangleRec(groundRect, groundColor)
 
-		rl.BeginMode2D(mainCamera)
-		rl.DrawRectangleRec(groundRect, groundColor)
+			//object and player draw
+			for i := int8(-127); i < 127; i++ {
+				if player.depth == i {
+					player.rectpro.Draw(rl.Lime)
+					player.blockCollider.Draw(rl.Blue)
+				}
 
-		//object and player draw
-		for i := int8(-127); i < 127; i++ {
-			if player.depth == i {
-				player.rectpro.Draw(rl.Lime)
-				player.blockCollider.Draw(rl.Blue)
-			}
-
-			for j := int(0); j < len(level.objects); j++ {
-				if level.objects[j].depth == i {
-					level.objects[j].Draw()
+				for j := int(0); j < len(level.objects); j++ {
+					if level.objects[j].depth == i {
+						level.objects[j].Draw()
+					}
 				}
 			}
-		}
+			rl.EndMode2D()
 
-		rl.EndMode2D()
-
-		if *debug {
-			rl.DrawText(fmt.Sprintf("Y Velocity = %.2f", player.yVelocity), 10, 10, 30, rl.RayWhite)
+			if *debug {
+				rl.DrawText(fmt.Sprintf("Y Velocity = %.2f", player.yVelocity), 10, 10, 30, rl.RayWhite)
+			}
 		}
 
 		if showMessageBox {
