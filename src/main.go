@@ -17,6 +17,8 @@ var editorMode *bool
 var ObjectList []LevelObject
 var ObjectSprites []rl.Texture2D = make([]rl.Texture2D, 2)
 
+var mainCamera rl.Camera2D
+
 const (
 	ScreenW, ScreenH  int32 = 800, 600
 	LEVEL_OBJECTLIMIT int   = 32768
@@ -52,7 +54,7 @@ func main() {
 	groundColor := rl.Blue
 
 	player := NewPlayer(groundHeight)
-	mainCamera := rl.NewCamera2D(rl.NewVector2(float32(ScreenH)-500, float32(ScreenW)/2), rl.NewVector2(player.rectpro.rect.X, 400), 0, 1)
+	mainCamera = rl.NewCamera2D(rl.NewVector2(float32(ScreenH)-500, float32(ScreenW)/2), rl.NewVector2(player.rectpro.rect.X, 400), 0, 1)
 
 	level, err := InitalizeLevel("idk.json")
 
@@ -78,7 +80,12 @@ func main() {
 			editor.MousePosition = rl.GetMousePosition()
 			editor.Update(dt)
 			rl.DrawText("Editor Mode", 10, 10, 30, rl.RayWhite)
+
+			rl.BeginMode2D(mainCamera)
 			rl.DrawRectangleRec(groundRect, groundColor)
+			rl.DrawCircle(0, 100, 5, rl.Red)
+			rl.EndMode2D()
+
 			rl.DrawText(fmt.Sprintf("Mouse X: %.2f Y: %.2f", editor.MousePosition.X, editor.MousePosition.Y), 10, 50, 20, rl.RayWhite)
 			// Add more editor features here
 		} else {

@@ -7,7 +7,8 @@ type Editor struct {
 }
 
 func (s *Editor) Update(dt float32){
-	
+	s.MousePosition.X = (s.MousePosition.X / mainCamera.Zoom) + mainCamera.Target.X - (float32(ScreenW))
+	s.MousePosition.Y = (s.MousePosition.Y / mainCamera.Zoom) + mainCamera.Target.Y - (float32(ScreenH))
 }
 
 func InitalizeEditor() Editor {
