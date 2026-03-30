@@ -26,10 +26,10 @@ type LevelObject struct {
 	depth  int8
 }
 
-func NewObject(rectPro RectPro, collider RectPro, id uint, mode uint16, depth int8) LevelObject {
-	return LevelObject{
+func NewObject(rectPro RectPro, id uint, mode uint16, depth int8) LevelObject {
+	tempObject := LevelObject{
 		rectpro:   rectPro,
-		colliders: []RectPro{collider},
+		colliders: []RectPro{},
 		id:        id,
 		mode:      mode,
 
@@ -37,6 +37,10 @@ func NewObject(rectPro RectPro, collider RectPro, id uint, mode uint16, depth in
 		color:  rl.White,
 		depth:  depth,
 	}
+
+	tempObject.CreateColliders()
+
+	return tempObject
 }
 
 // Makes a LevelObject from a CondensedObject.
@@ -51,14 +55,8 @@ func NewObjectFromReference(objList []LevelObject, condenced CondensedObject) Le
 	tempObject.rectpro.rect.Y = condenced.Y
 	tempObject.rectpro.Rotate(condenced.Rotation)
 
-	for i := range tempObject.colliders {
-		tempObject.colliders[i].rect.X += condenced.X
-		tempObject.colliders[i].rect.Y += condenced.Y
+	tempObject.CreateColliders()
 
-		if tempObject.mode == OBJECTMODE_SPIKE {
-			tempObject.colliders[i].Rotate(tempObject.rectpro.rotation)
-		}
-	}
 	tempObject.depth = condenced.Depth
 
 	return tempObject
@@ -74,30 +72,24 @@ func (object *LevelObject) Condence() CondensedObject {
 	}
 }
 
-func NewBlock(rectpro RectPro, id uint, depth int8) LevelObject {
-	return LevelObject{
-		rectpro:   rectpro,
-		colliders: []RectPro{NewRectPro(rectpro.rect.X, rectpro.rect.Y-rectpro.origin.Y-1, rectpro.rect.Width-16, 2, 0), NewRectPro(rectpro.rect.X, rectpro.rect.Y+rectpro.origin.Y+1, rectpro.rect.Width-16, 2, 0)},
-		id:        id,
-		mode:      OBJECTMODE_BLOCK,
-
-		sprite: ObjectSprites[id-1],
-		color:  rl.White,
-		depth:  depth,
+func (object *LevelObject) CreateColliders() {
+	switch(object.mode){
+	case OBJECTMODE_BLOCK:
+		object.colliders = []RectPro{
+			NewRectPro(object.rectpro.rect.X, object.rectpro.rect.Y-object.rectpro.origin.Y-1, object.rectpro.rect.Width-16, 2, 0), 
+			NewRectPro(object.rectpro.rect.X, object.rectpro.rect.Y+object.rectpro.origin.Y+1, object.rectpro.rect.Width-16, 2, 0),
+		}
+	case OBJECTMODE_SPIKE:
+		object.colliders = []RectPro{NewRectPro(object.rectpro.rect.X, object.rectpro.rect.Y, object.rectpro.rect.Width/4, object.rectpro.rect.Height/2, object.rectpro.rotation)}
 	}
 }
 
-func NewSpike(rectpro RectPro, id uint, depth int8) LevelObject {
-	return LevelObject{
-		rectpro:   rectpro,
-		colliders: []RectPro{NewRectPro(rectpro.rect.X, rectpro.rect.Y, rectpro.rect.Width/4, rectpro.rect.Height/2, rectpro.rotation)},
-		id:        id,
-		mode:      OBJECTMODE_SPIKE,
+func NewBlock(rectpro RectPro, id uint, depth int8) LevelObject {
+	return NewObject(rectpro, id, OBJECTMODE_BLOCK, depth)
+}
 
-		sprite: ObjectSprites[id-1],
-		color:  rl.White,
-		depth:  depth,
-	}
+func NewSpike(rectpro RectPro, id uint, depth int8) LevelObject {
+	return NewObject(rectpro, id, OBJECTMODE_SPIKE, depth)
 }
 
 func (object *LevelObject) Draw() {

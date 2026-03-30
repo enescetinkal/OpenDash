@@ -42,11 +42,12 @@ func main() {
 
 	backgroundColor := rl.SkyBlue
 
-	ObjectSprites = []rl.Texture2D{rl.LoadTexture("Resources/testBlock.png"), rl.LoadTexture("Resources/testSpike.png")}
+	ObjectSprites = []rl.Texture2D{rl.LoadTexture("Resources/testBlock.png"), rl.LoadTexture("Resources/testSpike.png"), rl.LoadTexture("Resources/testSlab.png")}
 
 	ObjectList = []LevelObject{
 		NewBlock(NewRectPro(0, 0, 64, 64, 0), 1, 0),
 		NewSpike(NewRectPro(0, 0, 64, 64, 0), 2, 0),
+		NewBlock(NewRectPro(0, 0, 64, 32, 0), 3, 0),
 	}
 
 	var groundHeight float32 = float32(ScreenH) - 100
@@ -54,7 +55,11 @@ func main() {
 	groundColor := rl.Blue
 
 	player := NewPlayer(groundHeight)
-	mainCamera = rl.NewCamera2D(rl.NewVector2(float32(ScreenH)-500, float32(ScreenW)/2), rl.NewVector2(player.rectpro.rect.X, 400), 0, 1)
+	if !*editorMode{
+		mainCamera = rl.NewCamera2D(rl.NewVector2(float32(ScreenH)-500, float32(ScreenW)/2), rl.NewVector2(player.rectpro.rect.X, 400), 0, 1)
+	} else {
+		mainCamera = rl.NewCamera2D(rl.NewVector2(0, 0), rl.Vector2Zero(), 0, 1)
+	}
 
 	level, err := InitalizeLevel("idk.json")
 
@@ -77,13 +82,12 @@ func main() {
 
 		if *editorMode {
 			// Basic editor mode
-			editor.MousePosition = rl.GetMousePosition()
 			editor.Update(dt)
 			rl.DrawText("Editor Mode", 10, 10, 30, rl.RayWhite)
 
 			rl.BeginMode2D(mainCamera)
 			rl.DrawRectangleRec(groundRect, groundColor)
-			rl.DrawCircle(0, 100, 5, rl.Red)
+			rl.DrawCircle(0, 0, 5, rl.Red)
 			rl.EndMode2D()
 
 			rl.DrawText(fmt.Sprintf("Mouse X: %.2f Y: %.2f", editor.MousePosition.X, editor.MousePosition.Y), 10, 50, 20, rl.RayWhite)
