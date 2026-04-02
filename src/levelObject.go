@@ -2,6 +2,7 @@ package main
 
 import (
 	"slices"
+
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -73,10 +74,10 @@ func (object *LevelObject) Condence() CondensedObject {
 }
 
 func (object *LevelObject) CreateColliders() {
-	switch(object.mode){
+	switch object.mode {
 	case OBJECTMODE_BLOCK:
 		object.colliders = []RectPro{
-			NewRectPro(object.rectpro.rect.X, object.rectpro.rect.Y-object.rectpro.origin.Y-1, object.rectpro.rect.Width-16, 2, 0), 
+			NewRectPro(object.rectpro.rect.X, object.rectpro.rect.Y-object.rectpro.origin.Y-1, object.rectpro.rect.Width-16, 2, 0),
 			NewRectPro(object.rectpro.rect.X, object.rectpro.rect.Y+object.rectpro.origin.Y+1, object.rectpro.rect.Width-16, 2, 0),
 		}
 	case OBJECTMODE_SPIKE:
@@ -93,7 +94,7 @@ func NewSpike(rectpro RectPro, id uint, depth int8) LevelObject {
 }
 
 func (object *LevelObject) Draw() {
-	rl.DrawTexturePro(object.sprite, rl.NewRectangle(0, 0, object.rectpro.rect.Width, object.rectpro.rect.Height), object.rectpro.rect, object.rectpro.origin, object.rectpro.rotation, object.color)
+	rl.DrawTexturePro(object.sprite, rl.NewRectangle(0, 0, float32(object.sprite.Width), float32(object.sprite.Height)), object.rectpro.rect, object.rectpro.origin, object.rectpro.rotation, object.color)
 
 	if *debug {
 		rl.DrawRectangleLinesEx(object.rectpro.GetCollider(), 2, rl.Green)
