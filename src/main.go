@@ -50,6 +50,8 @@ func main() {
 		NewBlock(NewRectPro(0, 0, 64, 32, 0), 3, 0),
 	}
 
+	//prefabs, err := MakePrefabs()
+
 	var groundHeight float32 = float32(ScreenH) - 100
 	groundRect := rl.NewRectangle(0, groundHeight, float32(ScreenW)*4, float32(ScreenH)*2)
 	groundColor := rl.Blue
@@ -62,7 +64,6 @@ func main() {
 	}
 
 	level, err := InitalizeLevel("idk.json")
-
 	if err != nil {
 		log.Fatal(err)
 	}

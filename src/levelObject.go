@@ -22,7 +22,6 @@ type LevelObject struct {
 	id        uint
 	mode      uint16
 
-	sprite rl.Texture2D
 	color  rl.Color
 	depth  int8
 }
@@ -34,7 +33,6 @@ func NewObject(rectPro RectPro, id uint, mode uint16, depth int8) LevelObject {
 		id:        id,
 		mode:      mode,
 
-		sprite: ObjectSprites[id-1],
 		color:  rl.White,
 		depth:  depth,
 	}
@@ -94,7 +92,7 @@ func NewSpike(rectpro RectPro, id uint, depth int8) LevelObject {
 }
 
 func (object *LevelObject) Draw() {
-	rl.DrawTexturePro(object.sprite, rl.NewRectangle(0, 0, float32(object.sprite.Width), float32(object.sprite.Height)), object.rectpro.rect, object.rectpro.origin, object.rectpro.rotation, object.color)
+	rl.DrawTexturePro(ObjectSprites[object.id-1], rl.NewRectangle(0, 0, float32(ObjectSprites[object.id-1].Width), float32(ObjectSprites[object.id-1].Height)), object.rectpro.rect, object.rectpro.origin, object.rectpro.rotation, object.color)
 
 	if *debug {
 		rl.DrawRectangleLinesEx(object.rectpro.GetCollider(), 2, rl.Green)

@@ -1,9 +1,20 @@
-[
-    {
-        "Id": 1,
-        "Witdh": 64,
-        "Height": 64,
-        "Type": "block"
+{
+    "Modes": {
+        "Decoration": 0,
+        "Block": 1,
+        "Spike": 2
     },
-    {}
-]
+    "Textures": [
+        "Resources/testBlock.png",
+        "Resources/testSpike.png",
+        "Resources/testSlab.png"
+    ],
+    "Objects": [
+        {
+            "Id": 1,
+            "Witdh": 64,
+            "Height": 64,
+            "Type": "Block"
+        }
+    ]
+}
